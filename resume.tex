@@ -1,0 +1,254 @@
+%-------------------------
+% Resume in Latex
+% Integrated from portfolio and existing resume content
+%------------------------
+
+\documentclass[a4paper,11pt]{article}
+\usepackage{latexsym}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{ragged2e}
+\usepackage[empty]{fullpage}
+\usepackage{wrapfig}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{marvosym}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{cfr-lm}
+\usepackage[T1]{fontenc}
+\usepackage[most]{tcolorbox}
+
+\setlength{\multicolsep}{0pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\geometry{left=1.4cm, top=0.8cm, right=1.2cm, bottom=1cm}
+
+\tcbset{
+	frame code={},
+	center title,
+	left=0pt,
+	right=0pt,
+	top=0pt,
+	bottom=0pt,
+	colback=gray!20,
+	colframe=white,
+	width=\dimexpr\textwidth\relax,
+	enlarge left by=-2mm,
+	boxsep=4pt,
+	arc=0pt,outer arc=0pt,
+}
+
+\urlstyle{same}
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
+
+\newcommand{\resumeItem}[2]{
+  \item{
+    \textbf{#1}{\hspace{0.5mm}#2 \vspace{-0.5mm}}
+  }
+}
+
+\newcommand{\resumePOR}[3]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1}\hspace{0.3mm}#2 & \textit{\small{#3}}
+    \end{tabular*}
+    \vspace{-2mm}
+}
+
+\newcommand{\resumeSubheading}[4]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1} & \textit{\footnotesize{#4}} \\
+        \textit{\footnotesize{#3}} &  \footnotesize{#2}\\
+    \end{tabular*}
+    \vspace{-2.4mm}
+}
+
+\newcommand{\resumeProject}[4]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1} & \textit{\footnotesize{#3}} \\
+        \footnotesize{\textit{#2}} & \footnotesize{#4}
+    \end{tabular*}
+    \vspace{-2.4mm}
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+\renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,labelsep=0mm]}
+\newcommand{\resumeHeadingSkillStart}{\begin{itemize}[leftmargin=*,itemsep=1.2mm, rightmargin=2ex]}
+\newcommand{\resumeItemListStart}{\begin{justify}\begin{itemize}[leftmargin=3ex, rightmargin=2ex, noitemsep,labelsep=1.2mm,itemsep=0mm]\small}
+
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{1mm}}
+\newcommand{\resumeHeadingSkillEnd}{\end{itemize}\vspace{-2mm}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\end{justify}\vspace{-2mm}}
+\newcommand{\cvsection}[1]{%
+\vspace{2mm}
+\begin{tcolorbox}
+    \textbf{\large #1}
+\end{tcolorbox}
+    \vspace{-4mm}
+}
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}%
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+
+\newcommand{\name}{Nidumolu Bala Rohith}
+\newcommand{\phone}{7386432810}
+\newcommand{\emaila}{rohithnidumolu@gmail.com}
+\newcommand{\location}{Vuyyuru, Andhra Pradesh}
+\newcommand{\linkedin}{linkedin.com/in/rohithnidumolu}
+\newcommand{\github}{github.com/Rohith-180503}
+\newcommand{\portfolio}{rohith-180503.github.io/PORTFOLIO}
+
+\begin{document}
+\fontfamily{cmr}\selectfont
+
+\begin{center}
+{\Huge \textbf{\name}} \\[3pt]
+\small
+\location \textbar\ +91-\phone \textbar\ \href{mailto:\emaila}{\emaila} \\
+\href{https://\linkedin}{\faLinkedin\ \linkedin} \hspace{2mm}
+\href{https://\github}{\faGithub\ \github} \hspace{2mm}
+\href{https://\portfolio}{\faGlobe\ \portfolio}
+\end{center}
+
+\cvsection{Professional Summary}
+\begin{justify}\small
+Entry-level software developer with hands-on experience building responsive web applications in React and JavaScript, along with an engineering internship that strengthened technical documentation, troubleshooting, and team collaboration. Comfortable with Java, SQL, Git, REST API fundamentals, and user-focused frontend development. Seeking software engineering opportunities where I can contribute to practical product development and continue growing in full-stack and frontend roles.
+\end{justify}
+\vspace{-2mm}
+
+\section{\textbf{Education}}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {SRKR Engineering College}{CGPA: 7.95/10}
+    {B.Tech in Electrical and Electronics Engineering}{2020 -- 2024}
+  \resumeSubheading
+    {Narayana Junior College, Vijayawada}{Score: 910/1000}
+    {Intermediate (MPC)}{2018 -- 2020}
+  \resumeSubheading
+    {Flora English Medium School, Vuyyuru}{GPA: 10/10}
+    {Secondary School}{2017 -- 2018}
+\resumeSubHeadingListEnd
+\vspace{-4.5mm}
+
+\section{\textbf{Experience}}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Voltech Engineers Pvt. Ltd.}{Chennai, India}
+    {Graduate Engineer Intern}{Jul 2024 -- Mar 2025}
+    \vspace{-1.8mm}
+    \resumeItemListStart
+      \item Supported high-voltage substation commissioning activities through technical checks, documentation, and team coordination.
+      \item Prepared single-line diagrams and control panel layout documents with attention to accuracy and engineering standards.
+      \item Assisted with testing, issue identification, and troubleshooting during site and system-level activities.
+      \item Maintained technical records and process documentation to support project execution and compliance.
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+\vspace{-6.5mm}
+
+\section{\textbf{Projects}}
+\resumeSubHeadingListStart
+
+  \resumeProject
+    {Online Learning Platform}
+    {Responsive React application for course browsing, cart workflows, and user-focused interface design}
+    {React, Vite, Bootstrap}
+    {\href{https://github.com/Rohith-180503/ONLINE-E-LEARN-WEBSITE}{GitHub}}
+    \resumeItemListStart
+      \item Built the interface using React functional components and hooks to manage UI state and user interactions.
+      \item Rendered course data dynamically and implemented cart logic for selection, pricing, and total calculation flows.
+      \item Structured the application with reusable components, responsive layouts, and cleaner styling for desktop and mobile use.
+      \item Added tooling support with React Router, Toastify, Vitest, and React Testing Library.
+    \resumeItemListEnd
+    \vspace{-2mm}
+
+  \resumeProject
+    {TaskFlow Productivity Manager}
+    {Task management web app with local persistence, theme handling, and inline task updates}
+    {JavaScript, HTML, CSS}
+    {\href{https://github.com/Rohith-180503/TODO-LIST-APP}{GitHub}}
+    \resumeItemListStart
+      \item Developed CRUD functionality for adding, editing, deleting, and updating task status in a browser-based interface.
+      \item Used LocalStorage to preserve tasks and theme preferences across browser sessions.
+      \item Implemented inline editing, completion toggles, and priority-based organization to improve usability.
+      \item Applied form validation, input handling, and modular JavaScript logic for maintainability and debugging.
+    \resumeItemListEnd
+    \vspace{-2mm}
+
+  \resumeProject
+    {Dragon Dash Arcade}
+    {Interactive browser game focused on animation timing, event handling, and lightweight game logic}
+    {JavaScript, HTML, CSS}
+    {}
+    \resumeItemListStart
+      \item Created a gameplay loop using \texttt{requestAnimationFrame} for smooth movement and animation updates.
+      \item Implemented keyboard controls, collision detection, score tracking, and progressive gameplay difficulty.
+      \item Combined DOM manipulation, obstacle timing, and audio feedback to build an engaging browser experience.
+    \resumeItemListEnd
+    \vspace{-2mm}
+
+  \resumeProject
+    {EV Regenerative Braking and Energy Management Simulation}
+    {Final-year academic project on energy recovery and braking behavior in electric vehicles}
+    {MATLAB, Simulink, PID Control}
+    {}
+    \resumeItemListStart
+      \item Modeled regenerative braking behavior for an electric vehicle system to study energy recovery performance.
+      \item Simulated battery and motor dynamics under braking conditions using MATLAB and Simulink.
+      \item Applied PID control concepts to evaluate braking response, torque behavior, and system stability.
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+\vspace{-5.5mm}
+
+\section{\textbf{Technical Skills and Interests}}
+\begin{itemize}[leftmargin=0.05in, label={}]
+  \small{\item{
+    \textbf{Languages}{: Java, JavaScript, SQL, HTML5, CSS3} \\
+    \textbf{Developer Tools}{: Git, GitHub, VS Code, Vite, Microsoft Office} \\
+    \textbf{Frameworks}{: React.js, Bootstrap, React Router, Toastify, Vitest, React Testing Library} \\
+    \textbf{Cloud/Databases}{: LocalStorage, REST API fundamentals} \\
+    \textbf{Soft Skills}{: Communication, analytical troubleshooting, teamwork, adaptability, documentation} \\
+    \textbf{Coursework}{: Data Structures basics, DBMS fundamentals, web development fundamentals, OOP concepts} \\
+    \textbf{Areas of Interest}{: Frontend development, responsive UI engineering, full-stack development, practical software solutions}
+  }}
+\end{itemize}
+\vspace{-14pt}
+
+\section{\textbf{Portfolio Highlights}}
+\vspace{-0.4mm}
+\resumeSubHeadingListStart
+  \resumePOR{Frontend Development, }{responsive layouts, reusable components, interactive UI flows}{Portfolio focus}
+  \resumePOR{Professional Strengths, }{debugging, maintainable code structure, practical implementation}{Core profile}
+  \resumePOR{Links, }{\href{https://\github}{GitHub} \textbar\ \href{https://\portfolio}{Portfolio} \textbar\ \href{https://\linkedin}{LinkedIn}}{Online presence}
+\resumeSubHeadingListEnd
+\vspace{-5mm}
+
+\section{\textbf{Additional Information}}
+\vspace{-0.4mm}
+\resumeSubHeadingListStart
+  \resumePOR{Languages, }{English, Hindi, Telugu}{}
+\resumeSubHeadingListEnd
+\vspace{-4mm}
+\setlength{\footskip}{4.08003pt}
+
+\end{document}
