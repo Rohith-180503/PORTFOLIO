@@ -1,844 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nidumolu Bala Rohith | Portfolio</title>
-    <meta name="description" content="Portfolio of Nidumolu Bala Rohith - Entry-level software developer">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #090a0f;
-            --surface-color: rgba(255, 255, 255, 0.03);
-            --surface-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-indigo: #6366f1;
-            --accent-pink: #ec4899;
-            --accent-cyan: #06b6d4;
-            --accent-amber: #f59e0b;
-            --font-display: 'Syne', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-            --transition-fluid: all 0.5s cubic-bezier(0.1, 0.8, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none;
-        }
-
-        @media (pointer: coarse) {
-            * { cursor: auto; }
-            .cursor-dot, .cursor-ring { display: none !important; }
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-indigo);
-        }
-
-        /* Background Canvas */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            pointer-events: none;
-        }
-
-        /* Noise Overlay */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.03;
-            background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');
-        }
-
-        /* Custom Cursor */
-        .cursor-dot, .cursor-ring {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
-        }
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-cyan);
-            transition: transform 0.1s, background-color 0.2s;
-        }
-        .cursor-ring {
-            width: 30px;
-            height: 30px;
-            border: 1.5px solid var(--accent-indigo);
-            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
-        }
-        .cursor-dot.hover {
-            transform: translate(-50%, -50%) scale(1.5);
-            background-color: var(--accent-pink);
-        }
-        .cursor-ring.hover {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(236, 72, 153, 0.1);
-            border-color: var(--accent-pink);
-        }
-
-        /* Loader */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-color);
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease;
-        }
-        .loader-initials {
-            font-family: var(--font-display);
-            font-size: 4rem;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--accent-cyan), var(--accent-indigo), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-        .loader-bar-container {
-            width: 200px;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .loader-bar {
-            height: 100%;
-            width: 0;
-            background: linear-gradient(to right, var(--accent-cyan), var(--accent-pink));
-            animation: load 2s ease-in-out forwards;
-        }
-        @keyframes load {
-            0% { width: 0; }
-            100% { width: 100%; }
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Typography */
-        h1, h2, h3, h4 {
-            font-family: var(--font-display);
-            font-weight: 700;
-        }
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            text-align: center;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50%;
-            height: 3px;
-            background: linear-gradient(to right, var(--accent-cyan), var(--accent-indigo));
-            border-radius: 2px;
-        }
-
-        /* Navbar */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            transition: var(--transition-fluid);
-        }
-        nav.scrolled {
-            padding: 1rem 5%;
-            background: rgba(9, 10, 15, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--surface-border);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-        .logo {
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--text-main);
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-        .logo span {
-            color: var(--accent-cyan);
-        }
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--text-main);
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-pink);
-            transition: width 0.3s ease;
-        }
-        .nav-links a:hover::after, .nav-links a.active::after {
-            width: 100%;
-        }
-        .mobile-menu-btn {
-            display: none;
-            color: var(--text-main);
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-        }
-
-        /* Social Sidebar */
-        .social-sidebar {
-            position: fixed;
-            left: 2%;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            z-index: 1000;
-        }
-        .social-sidebar a {
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            transition: var(--transition-fluid);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--surface-color);
-            border: 1px solid var(--surface-border);
-            text-decoration: none;
-        }
-        .social-sidebar a:hover {
-            color: var(--text-main);
-            transform: translateY(-5px) scale(1.1);
-            background: rgba(255,255,255,0.05);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.2);
-        }
-
-        /* Layout */
-        section {
-            padding: 100px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 120px;
-            position: relative;
-        }
-        .hero-content {
-            flex: 1;
-            padding-right: 2rem;
-            z-index: 1;
-        }
-        .greeting {
-            color: var(--accent-cyan);
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        .shimmer-name {
-            font-size: clamp(3rem, 5vw, 5rem);
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #fff, var(--text-muted), #fff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 5s linear infinite;
-        }
-        @keyframes shimmer {
-            to { background-position: 200% center; }
-        }
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
-        .ctas {
-            display: flex;
-            gap: 1rem;
-        }
-        .btn {
-            padding: 0.8rem 2rem;
-            border-radius: 30px;
-            font-weight: 600;
-            text-decoration: none;
-            font-family: var(--font-display);
-            transition: var(--transition-fluid);
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            text-align: center;
-        }
-        .btn-primary {
-            background: linear-gradient(45deg, var(--accent-indigo), var(--accent-pink));
-            color: white;
-            border: none;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
-            transform: translateY(-3px);
-        }
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .btn-secondary:hover {
-            border-color: var(--text-main);
-            background: rgba(255,255,255,0.05);
-            transform: translateY(-3px);
-        }
-
-        .hero-visual {
-            flex: 1;
-            display: flex;
-            justify-content: flex-end;
-            perspective: 1000px;
-        }
-        .floating-card {
-            width: 320px;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--surface-border);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease;
-        }
-        .card-stat {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            transform: translateZ(30px);
-        }
-        .card-stat:last-child { margin-bottom: 0; }
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            background: rgba(255,255,255,0.05);
-        }
-        .i-projects { color: var(--accent-cyan); }
-        .i-code { color: var(--accent-pink); }
-        .i-edu { color: var(--accent-amber); }
-        .stat-info h4 { font-size: 1.2rem; margin-bottom: 0.2rem; }
-        .stat-info p { font-size: 0.9rem; color: var(--text-muted); }
-
-        /* Skills */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-        .skill-group h3 {
-            margin-bottom: 1.5rem;
-            color: var(--accent-indigo);
-        }
-        .skill-bar-item {
-            margin-bottom: 1.5rem;
-        }
-        .skill-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        .skill-bar {
-            height: 8px;
-            background: var(--surface-color);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-indigo));
-            width: 0;
-            border-radius: 4px;
-            transition: width 1.5s cubic-bezier(0.1, 0.8, 0.2, 1);
-        }
-        .tech-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-        .chip {
-            background: var(--surface-color);
-            border: 1px solid var(--surface-border);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            transition: var(--transition-fluid);
-        }
-        .chip:hover {
-            background: rgba(6, 182, 212, 0.1);
-            border-color: var(--accent-cyan);
-            color: var(--accent-cyan);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.1);
-        }
-
-        /* Experience */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background: var(--surface-border);
-        }
-        .timeline-item {
-            position: relative;
-            padding-left: 60px;
-            margin-bottom: 3rem;
-        }
-        .timeline-dot {
-            position: absolute;
-            left: 11px;
-            top: 5px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--accent-pink);
-            border: 4px solid var(--bg-color);
-            box-shadow: 0 0 10px var(--accent-pink);
-            transition: var(--transition-fluid);
-        }
-        .timeline-content {
-            background: var(--surface-color);
-            border: 1px solid var(--surface-border);
-            border-radius: 16px;
-            padding: 2.5rem;
-            transition: var(--transition-fluid);
-        }
-        .timeline-item:hover .timeline-dot {
-            transform: scale(1.3);
-            box-shadow: 0 0 20px var(--accent-pink);
-        }
-        .timeline-content:hover {
-            border-color: rgba(236, 72, 153, 0.4);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-            transform: translateX(10px);
-            background: rgba(255,255,255,0.05);
-        }
-        .timeline-date {
-            color: var(--accent-pink);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .timeline-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .timeline-company {
-            color: var(--accent-cyan);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-        .timeline-list {
-            list-style: none;
-        }
-        .timeline-list li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 0.8rem;
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        .timeline-list li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent-pink);
-        }
-
-        /* Projects */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-        }
-        .project-card {
-            background: var(--surface-color);
-            border: 1px solid var(--surface-border);
-            border-radius: 16px;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition-fluid);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
-            transition: left 0.7s ease;
-        }
-        .project-card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            background: rgba(255,255,255,0.05);
-        }
-        .project-card:hover::before {
-            left: 100%;
-        }
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        .project-icon {
-            font-size: 2.5rem;
-        }
-        .project-links a {
-            color: var(--text-muted);
-            font-size: 1.3rem;
-            transition: var(--transition-fluid);
-            margin-left: 12px;
-        }
-        .project-links a:hover {
-            color: var(--accent-cyan);
-            transform: scale(1.2);
-        }
-        .project-title {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-        }
-        .project-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
-            flex: 1;
-            line-height: 1.7;
-        }
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-top: auto;
-        }
-        .project-tech span {
-            font-size: 0.8rem;
-            color: var(--accent-indigo);
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        /* Education & Contact Grid Layout */
-        .bottom-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        /* Education */
-        .edu-card {
-            background: var(--surface-color);
-            border-left: 3px solid var(--accent-amber);
-            padding: 1.8rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0 12px 12px 0;
-            transition: var(--transition-fluid);
-        }
-        .edu-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-            border-left-width: 5px;
-        }
-        .edu-year {
-            font-size: 0.85rem;
-            color: var(--accent-amber);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .edu-title {
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-        .edu-school {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-        }
-        .edu-score {
-            display: inline-block;
-            font-size: 0.8rem;
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--accent-amber);
-            padding: 0.3rem 0.8rem;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
-        /* Contact */
-        .contact-content {
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-            align-items: center;
-        }
-        .avatar-container {
-            position: relative;
-            width: 160px;
-            height: 160px;
-        }
-        .avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-pink));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            font-family: var(--font-display);
-            font-weight: 800;
-            color: white;
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
-        }
-        .ripple {
-            position: absolute;
-            inset: -10px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-pink);
-            animation: ripple-anim 2.5s infinite cubic-bezier(0.1, 0.8, 0.2, 1);
-            z-index: 1;
-        }
-        @keyframes ripple-anim {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.4); opacity: 0; }
-        }
-        .contact-cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
-            width: 100%;
-        }
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            background: var(--surface-color);
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid var(--surface-border);
-            text-decoration: none;
-            color: var(--text-main);
-            transition: var(--transition-fluid);
-        }
-        .contact-item:hover {
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-5px);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        .contact-item i {
-            font-size: 1.5rem;
-            color: var(--accent-cyan);
-        }
-        .contact-text h5 {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 0.2rem;
-        }
-        .contact-text p {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2.5rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--surface-border);
-            margin-top: 80px;
-            font-size: 0.9rem;
-            background: rgba(0,0,0,0.2);
-        }
-
-        /* Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s cubic-bezier(0.1, 0.8, 0.2, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .hero {
-                flex-direction: column;
-                justify-content: center;
-                text-align: center;
-                padding-top: 150px;
-            }
-            .hero-content {
-                padding-right: 0;
-                margin-bottom: 4rem;
-            }
-            .subtitle {
-                margin: 0 auto 2rem;
-            }
-            .ctas {
-                justify-content: center;
-            }
-            .skills-grid, .bottom-grid {
-                grid-template-columns: 1fr;
-            }
-            .timeline::before { left: 15px; }
-            .timeline-dot { left: 6px; }
-            .timeline-item { padding-left: 45px; }
-            .social-sidebar { display: none; }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: rgba(9, 10, 15, 0.98);
-                flex-direction: column;
-                padding: 2rem;
-                text-align: center;
-                border-bottom: 1px solid var(--surface-border);
-            }
-            .nav-links.show {
-                display: flex;
-            }
-            .mobile-menu-btn {
-                display: block;
-            }
-        }
-    </style>
-</head>
-<body>
-
+    <meta
+      name="description"
+      content="Portfolio of Nidumolu Bala Rohith - Entry-level software developer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Syne:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div id="loader">
-        <div class="loader-initials">NBR</div>
-        <div class="loader-bar-container">
-            <div class="loader-bar"></div>
-        </div>
+      <div class="loader-initials">NBR</div>
+      <div class="loader-bar-container">
+        <div class="loader-bar"></div>
+      </div>
     </div>
 
     <div class="cursor-dot"></div>
@@ -848,517 +35,530 @@
     <div class="noise-overlay"></div>
 
     <div class="social-sidebar reveal active">
-        <a href="https://linkedin.com/in/rohithnidumolu" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="https://github.com/Rohith-180503" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://rohith-180503.github.io/PORTFOLIO" target="_blank" title="Portfolio"><i class="fa-solid fa-globe"></i></a>
+      <a
+        href="https://linkedin.com/in/rohithnidumolu"
+        target="_blank"
+        title="LinkedIn"
+        ><i class="fa-brands fa-linkedin"></i
+      ></a>
+      <a href="https://github.com/Rohith-180503" target="_blank" title="GitHub"
+        ><i class="fa-brands fa-github"></i
+      ></a>
+      <a
+        href="https://rohith-180503.github.io/PORTFOLIO"
+        target="_blank"
+        title="Portfolio"
+        ><i class="fa-solid fa-globe"></i
+      ></a>
     </div>
 
     <nav id="navbar">
-        <a href="#" class="logo">ROHITH<span>.</span></a>
-        <button class="mobile-menu-btn" id="menu-btn"><i class="fa-solid fa-bars"></i></button>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+      <a href="#" class="logo">ROHITH<span>.</span></a>
+      <button class="mobile-menu-btn" id="menu-btn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
 
     <section id="home" class="hero">
-        <div class="hero-content reveal">
-            <span class="greeting">Hello, world! I am</span>
-            <h1 class="shimmer-name">Nidumolu Bala Rohith</h1>
-            <p class="subtitle">Full-stack developer specializing in building scalable, high-performance web applications. Expertly navigating the MERN stack alongside Java and modern database architectures (PostgreSQL, MongoDB, SQLite) to deliver secure, end-to-end engineering solutions that bridge complex backend logic with premium, interactive user experiences.</p>
-            <div class="ctas">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#contact" class="btn btn-secondary">Contact Me</a>
-            </div>
+      <div class="hero-content reveal">
+        <span class="greeting">Hello, world! I am</span>
+        <h1 class="shimmer-name">Nidumolu Bala Rohith</h1>
+        <p class="subtitle">
+          Full-stack developer specializing in building scalable,
+          high-performance web applications. Expertly navigating the MERN stack
+          alongside Java and modern database architectures (MySQL, MongoDB,
+          SQLite) to deliver secure, end-to-end engineering solutions that
+          bridge complex backend logic with premium, interactive user
+          experiences.
+        </p>
+        <div class="ctas">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-secondary">Contact Me</a>
         </div>
-        <div class="hero-visual reveal" style="transition-delay: 0.2s;">
-            <div class="floating-card" id="tilt-card">
-                <div class="card-stat">
-                    <div class="stat-icon i-projects"><i class="fa-solid fa-layer-group"></i></div>
-                    <div class="stat-info">
-                        <h4>4+ Core Projects</h4>
-                        <p>Frontend & Simulation</p>
-                    </div>
-                </div>
-                <div class="card-stat">
-                    <div class="stat-icon i-code"><i class="fa-solid fa-code"></i></div>
-                    <div class="stat-info">
-                        <h4>Full-Stack Core</h4>
-                        <p>MERN, Node.js & Java</p>
-                    </div>
-                </div>
-                <div class="card-stat">
-                    <div class="stat-icon i-edu"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <div class="stat-info">
-                        <h4>B.Tech EEE</h4>
-                        <p>SRKR Engineering College</p>
-                    </div>
-                </div>
+      </div>
+      <div class="hero-visual reveal" style="transition-delay: 0.2s">
+        <div class="floating-card" id="tilt-card">
+          <div class="card-stat">
+            <div class="stat-icon i-projects">
+              <i class="fa-solid fa-layer-group"></i>
             </div>
+            <div class="stat-info">
+              <h4>4+ Core Projects</h4>
+              <p>Frontend & Simulation</p>
+            </div>
+          </div>
+          <div class="card-stat">
+            <div class="stat-icon i-code"><i class="fa-solid fa-code"></i></div>
+            <div class="stat-info">
+              <h4>Full-Stack Core</h4>
+              <p>MERN, Node.js & Java</p>
+            </div>
+          </div>
+          <div class="card-stat">
+            <div class="stat-icon i-edu">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div class="stat-info">
+              <h4>B.Tech EEE</h4>
+              <p>SRKR Engineering College</p>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <section id="skills">
-        <h2 class="section-title reveal">Technical Arsenal</h2>
-        <div class="skills-grid">
-            <div class="skill-group reveal">
-                <h3>Languages & Frameworks</h3>
-                
-                <div class="skill-bar-item">
-                    <div class="skill-info"><span>JavaScript / React.js</span><span>92%</span></div>
-                    <div class="skill-bar"><div class="skill-progress" data-width="92%"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                    <div class="skill-info"><span>Node.js / Express.js</span><span>85%</span></div>
-                    <div class="skill-bar"><div class="skill-progress" data-width="85%"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                    <div class="skill-info"><span>Java</span><span>80%</span></div>
-                    <div class="skill-bar"><div class="skill-progress" data-width="80%"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                    <div class="skill-info"><span>SQL / NoSQL Databases</span><span>82%</span></div>
-                    <div class="skill-bar"><div class="skill-progress" data-width="82%"></div></div>
-                </div>
-            </div>
-
-            <div class="skill-group reveal" style="transition-delay: 0.2s;">
-                <h3>Tools & Technologies</h3>
-                <div class="tech-chips">
-                    <div class="chip">Node.js</div>
-                    <div class="chip">Express.js</div>
-                    <div class="chip">React.js</div>
-                    <div class="chip">MongoDB</div>
-                    <div class="chip">PostgreSQL</div>
-                    <div class="chip">SQLite</div>
-                    <div class="chip">JWT Auth</div>
-                    <div class="chip">Stripe API</div>
-                    <div class="chip">REST APIs</div>
-                    <div class="chip">Git & GitHub</div>
-                    <div class="chip">Vite</div>
-                    <div class="chip">Postman</div>
-                </div>
-                <h3 style="margin-top: 2rem;">Professional Strengths</h3>
-                <div class="tech-chips">
-                    <div class="chip">Analytical Troubleshooting</div>
-                    <div class="chip">Team Collaboration</div>
-                    <div class="chip">Adaptability</div>
-                    <div class="chip">Technical Documentation</div>
-                    <div class="chip">Responsive Layouts</div>
-                </div>
-            </div>
+      <h2 class="section-title reveal">Technical Arsenal</h2>
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <h3>Languages & Frameworks</h3>
+          <div class="tech-chips">
+            <div class="chip">JavaScript</div>
+            <div class="chip">React.js</div>
+            <div class="chip">Node.js</div>
+            <div class="chip">Express.js</div>
+            <div class="chip">Java</div>
+            <div class="chip">SQL</div>
+            <div class="chip">HTML5</div>
+            <div class="chip">CSS3</div>
+          </div>
+          <h3 style="margin-top: 2rem">Databases</h3>
+          <div class="tech-chips">
+            <div class="chip">MongoDB</div>
+            <div class="chip">MySQL</div>
+            <div class="chip">SQLite</div>
+          </div>
         </div>
+
+        <div class="skill-group reveal" style="transition-delay: 0.2s">
+          <h3>Tools & Technologies</h3>
+          <div class="tech-chips">
+            <div class="chip" data-skill="node">Node.js</div>
+            <div class="chip" data-skill="express">Express.js</div>
+            <div class="chip" data-skill="react">React.js</div>
+            <div class="chip" data-skill="mongodb">MongoDB</div>
+            <div class="chip" data-skill="mysql">MySQL</div>
+            <div class="chip" data-skill="sqlite">SQLite</div>
+            <div class="chip" data-skill="jwt">JWT Auth</div>
+            <div class="chip" data-skill="stripe">Stripe API</div>
+            <div class="chip" data-skill="rest">REST APIs</div>
+            <div class="chip" data-skill="git">Git & GitHub</div>
+            <div class="chip" data-skill="vite">Vite</div>
+            <div class="chip" data-skill="postman">Postman</div>
+          </div>
+          <h3 style="margin-top: 2rem">Professional Strengths</h3>
+          <div class="tech-chips">
+            <div class="chip">Analytical Troubleshooting</div>
+            <div class="chip">Team Collaboration</div>
+            <div class="chip">Adaptability</div>
+            <div class="chip">Technical Documentation</div>
+            <div class="chip">Responsive Layouts</div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="experience">
-        <h2 class="section-title reveal">Experience</h2>
-        <div class="timeline">
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="timeline-date">Jul 2024 — Mar 2025</div>
-                    <h3 class="timeline-title">Graduate Engineer Intern</h3>
-                    <div class="timeline-company">Voltech Engineers Pvt. Ltd., Chennai</div>
-                    <ul class="timeline-list">
-                        <li>Supported high-voltage substation commissioning activities by managing critical technical checks, comprehensive documentation, and direct team coordination.</li>
-                        <li>Designed and prepared accurate single-line diagrams and control panel layout documents in strict adherence to industry engineering standards.</li>
-                        <li>Collaborated effectively with senior engineers during site and system-level activities to assist with testing, prompt issue identification, and troubleshooting.</li>
-                        <li>Maintained detailed technical records and robust process documentation, ensuring smooth project execution, compliance, and improved operational workflows.</li>
-                    </ul>
-                </div>
+      <h2 class="section-title reveal">Experience</h2>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Jul 2024 — Mar 2025</div>
+            <h3 class="timeline-title">Graduate Engineer Intern</h3>
+            <div class="timeline-company">
+              Voltech Engineers Pvt. Ltd., Chennai
             </div>
+            <ul class="timeline-list">
+              <li>
+                Supported high-voltage substation commissioning activities by
+                managing critical technical checks, comprehensive documentation,
+                and direct team coordination.
+              </li>
+              <li>
+                Designed and prepared accurate single-line diagrams and control
+                panel layout documents in strict adherence to industry
+                engineering standards.
+              </li>
+              <li>
+                Collaborated effectively with senior engineers during site and
+                system-level activities to assist with testing, prompt issue
+                identification, and troubleshooting.
+              </li>
+              <li>
+                Maintained detailed technical records and robust process
+                documentation, ensuring smooth project execution, compliance,
+                and improved operational workflows.
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
     </section>
 
     <section id="projects">
-        <h2 class="section-title reveal">Featured Projects</h2>
-        <div class="projects-grid">
-            
-            <div class="project-card reveal">
-                <div class="project-header">
-                    <div class="project-icon">🎓</div>
-                    <div class="project-links">
-                        <a href="https://github.com/Rohith-180503/ONLINE-LEARNING-WEBSITE" target="_blank" title="View Source"><i class="fa-brands fa-github"></i></a>
-                    </div>
-                </div>
-                <h3 class="project-title">LearnHub - Full-Stack LMS</h3>
-                <p class="project-desc">A professional-grade education ecosystem featuring secure JWT cookie-based authentication and a robust Stripe payment infrastructure. Engineered a complete transition from a static UI to a dynamic platform with course progress persistence, real-time database synchronization, and an optimized decoupled architecture for high-performance delivery.</p>
-                <div class="project-tech">
-                    <span>Node.js</span>
-                    <span>Express</span>
-                    <span>SQLite</span>
-                    <span>React 19</span>
-                    <span>JWT</span>
-                    <span>Stripe</span>
-                </div>
+      <h2 class="section-title reveal">Featured Projects</h2>
+      <div class="projects-grid">
+        <div class="project-card reveal">
+          <div class="project-header">
+            <div class="project-icon">🎓</div>
+            <div class="project-links">
+              <a
+                href="https://github.com/Rohith-180503/ONLINE-LEARNING-WEBSITE"
+                target="_blank"
+                title="View Source"
+                ><i class="fa-brands fa-github"></i
+              ></a>
             </div>
-
-            <div class="project-card reveal" style="transition-delay: 0.1s;">
-                <div class="project-header">
-                    <div class="project-icon">📝</div>
-                    <div class="project-links">
-                        <a href="https://github.com/Rohith-180503/TODO-LIST-APP" target="_blank" title="View Source"><i class="fa-brands fa-github"></i></a>
-                    </div>
-                </div>
-                <h3 class="project-title">TaskFlow Manager</h3>
-                <p class="project-desc">A sophisticated productivity application focused on state persistence and accessible user workflows. Developed complex filtering and sorting algorithms, inline task editing, and a robust 'Undo' system using custom toast notifications. Prioritized security with DOMPurify sanitization and ensured full ARIA accessibility compliance.</p>
-                <div class="project-tech">
-                    <span>Vanilla JS</span>
-                    <span>LocalStorage</span>
-                    <span>DOMPurify</span>
-                    <span>ARIA</span>
-                    <span>CSS3</span>
-                </div>
-            </div>
-
-            <div class="project-card reveal" style="transition-delay: 0.2s;">
-                <div class="project-header">
-                    <div class="project-icon">🐉</div>
-                    <div class="project-links">
-                        <a href="https://github.com/Rohith-180503/DRAGON-DASH-GAME" target="_blank" title="View Source"><i class="fa-brands fa-github"></i></a>
-                    </div>
-                </div>
-                <h3 class="project-title">Dragon Dash Arcade</h3>
-                <p class="project-desc">An immersive browser-based arcade game utilizing high-performance animation synchronization and custom physics logic. Developed a seamless gameplay loop with <code>requestAnimationFrame</code>, advanced collision detection algorithms, and dynamic obstacle generation to ensure low-latency interactive responsiveness.</p>
-                <div class="project-tech">
-                    <span>JavaScript</span>
-                    <span>HTML Canvas</span>
-                    <span>Animation API</span>
-                    <span>Logic Design</span>
-                </div>
-            </div>
-
-            <div class="project-card reveal" style="transition-delay: 0.3s;">
-                <div class="project-header">
-                    <div class="project-icon">🎬</div>
-                    <div class="project-links">
-                        <a href="https://github.com/Rohith-180503/NETFLIX-CLONE" target="_blank" title="View Source"><i class="fa-brands fa-github"></i></a>
-                    </div>
-                </div>
-                <h3 class="project-title">Netflix India Clone</h3>
-                <p class="project-desc">A high-fidelity, fully responsive landing page clone prioritizing pixel-perfect design and cinematic user engagement. Leveraged advanced CSS Grid and Flexbox for precise layout control, integrated autoplaying video mockups, and implemented interactive FAQ components with smooth state transitions to replicate the premium official experience.</p>
-                <div class="project-tech">
-                    <span>HTML5</span>
-                    <span>CSS3</span>
-                    <span>Flexbox</span>
-                    <span>CSS Grid</span>
-                    <span>Responsive Design</span>
-                </div>
-            </div>
-
+          </div>
+          <h3 class="project-title">LearnHub - Full-Stack LMS</h3>
+          <p class="project-desc">
+            A professional-grade education ecosystem featuring secure JWT
+            cookie-based authentication and a robust Stripe payment
+            infrastructure. Engineered a complete transition from a static UI to
+            a dynamic platform with course progress persistence, real-time
+            database synchronization, and an optimized decoupled architecture
+            for high-performance delivery.
+          </p>
+          <div
+            class="project-tech"
+            data-tech="node,express,sqlite,react,jwt,stripe,rest"
+          >
+            <span>Node.js</span>
+            <span>Express</span>
+            <span>SQLite</span>
+            <span>React 19</span>
+            <span>JWT</span>
+            <span>Stripe</span>
+          </div>
+          <button class="btn-project" data-project="learnhub">
+            Explore Deep-Dive <i class="fa-solid fa-arrow-right-long"></i>
+          </button>
         </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.1s">
+          <div class="project-header">
+            <div class="project-icon">📝</div>
+            <div class="project-links">
+              <a
+                href="https://github.com/Rohith-180503/TODO-LIST-APP"
+                target="_blank"
+                title="View Source"
+                ><i class="fa-brands fa-github"></i
+              ></a>
+            </div>
+          </div>
+          <h3 class="project-title">TaskFlow Manager</h3>
+          <p class="project-desc">
+            A sophisticated productivity application focused on state
+            persistence and accessible user workflows. Developed complex
+            filtering and sorting algorithms, inline task editing, and a robust
+            'Undo' system using custom toast notifications. Prioritized security
+            with DOMPurify sanitization and ensured full ARIA accessibility
+            compliance.
+          </p>
+          <div class="project-tech" data-tech="javascript,sqlite,rest">
+            <span>Vanilla JS</span>
+            <span>LocalStorage</span>
+            <span>DOMPurify</span>
+            <span>ARIA</span>
+            <span>CSS3</span>
+          </div>
+          <button class="btn-project" data-project="taskflow">
+            Explore Deep-Dive <i class="fa-solid fa-arrow-right-long"></i>
+          </button>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.2s">
+          <div class="project-header">
+            <div class="project-icon">🐉</div>
+            <div class="project-links">
+              <a
+                href="https://github.com/Rohith-180503/DRAGON-DASH-GAME"
+                target="_blank"
+                title="View Source"
+                ><i class="fa-brands fa-github"></i
+              ></a>
+            </div>
+          </div>
+          <h3 class="project-title">Dragon Dash Arcade</h3>
+          <p class="project-desc">
+            An immersive browser-based arcade game utilizing high-performance
+            animation synchronization and custom physics logic. Developed a
+            seamless gameplay loop with <code>requestAnimationFrame</code>,
+            advanced collision detection algorithms, and dynamic obstacle
+            generation to ensure low-latency interactive responsiveness.
+          </p>
+          <div class="project-tech" data-tech="javascript,logic">
+            <span>JavaScript</span>
+            <span>HTML Canvas</span>
+            <span>Animation API</span>
+            <span>Logic Design</span>
+          </div>
+          <button class="btn-project" data-project="dragondash">
+            Explore Deep-Dive <i class="fa-solid fa-arrow-right-long"></i>
+          </button>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.3s">
+          <div class="project-header">
+            <div class="project-icon">🎬</div>
+            <div class="project-links">
+              <a
+                href="https://github.com/Rohith-180503/NETFLIX-CLONE"
+                target="_blank"
+                title="View Source"
+                ><i class="fa-brands fa-github"></i
+              ></a>
+            </div>
+          </div>
+          <h3 class="project-title">Netflix India Clone</h3>
+          <p class="project-desc">
+            A high-fidelity, fully responsive landing page clone prioritizing
+            pixel-perfect design and cinematic user engagement. Leveraged
+            advanced CSS Grid and Flexbox for precise layout control, integrated
+            autoplaying video mockups, and implemented interactive FAQ
+            components with smooth state transitions to replicate the premium
+            official experience.
+          </p>
+          <div class="project-tech" data-tech="html,css,flexbox,grid">
+            <span>HTML5</span>
+            <span>CSS3</span>
+            <span>Flexbox</span>
+            <span>CSS Grid</span>
+            <span>Responsive Design</span>
+          </div>
+          <button class="btn-project" data-project="netflix">
+            Explore Deep-Dive <i class="fa-solid fa-arrow-right-long"></i>
+          </button>
+        </div>
+      </div>
     </section>
 
-    <div class="bottom-grid">
-        <section id="education" style="padding-top: 0;">
-            <h2 class="section-title reveal" style="margin-bottom: 2rem;">Education</h2>
-            
-            <div class="edu-card reveal">
-                <div class="edu-year">2020 — 2024</div>
-                <h3 class="edu-title">B.Tech in Electrical & Electronics</h3>
-                <div class="edu-school">SRKR Engineering College</div>
-                <div class="edu-score">CGPA: 7.95/10</div>
-                
-                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05);">
-                    <h5 style="color: var(--accent-cyan); font-size: 0.85rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Final Year Capstone Project</h5>
-                    <h4 style="font-size: 1rem; margin-bottom: 0.5rem;">EV Regenerative Braking Simulation</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Advanced technical analysis of energy recovery efficiency and motor torque behavior in electric vehicles. Developed battery-motor dynamic models using MATLAB and Simulink to evaluate system stability and braking response under variable conditions.</p>
+    <section id="education">
+      <h2 class="section-title reveal">Education</h2>
+      <div class="edu-timeline">
+        <div class="edu-timeline-item reveal">
+          <div class="edu-timeline-marker">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div class="edu-timeline-content">
+            <div class="edu-header">
+              <div>
+                <h3 class="edu-degree">
+                  B.Tech in Electrical & Electronics Engineering
+                </h3>
+                <div class="edu-institution">
+                  SRKR Engineering College, Bhimavaram
                 </div>
+              </div>
+              <span class="edu-duration">2020 — 2024</span>
             </div>
-
-            <div class="edu-card reveal" style="transition-delay: 0.1s;">
-                <div class="edu-year">2018 — 2020</div>
-                <h3 class="edu-title">Intermediate (MPC)</h3>
-                <div class="edu-school">Narayana Junior College, Vijayawada</div>
-                <div class="edu-score">Score: 910/1000</div>
+            <div class="edu-grade">CGPA: 7.95/10</div>
+            <div class="edu-project">
+              <div class="edu-project-title">
+                <i class="fa-solid fa-bolt"></i> Capstone: EV Regenerative
+                Braking Simulation
+              </div>
+              <p>
+                This project introduces a simulation framework aimed at evaluating
+                the efficacy of regenerative braking systems in electric vehicles
+                (EVs) utilizing brushless DC (BLDC) motors. Through the integration
+                of various components such as the battery pack, motor, control
+                system, and power electronics, the framework realistically models
+                their interactions, including the dynamic behaviour of batteries and
+                their thermal characteristics across different driving conditions.
+                Central to the simulation is the regenerative braking system,
+                which efficiently captures energy during braking utilizing PID
+                controllers to optimize performance while ensuring vehicle stability.
+                Moreover, closed-loop control strategies are incorporated to adapt
+                motor speed and torque in response to real-time inputs from the
+                braking pedal, enhancing the overall responsiveness and efficiency
+                of the system. With a focus on monitoring and visualization tools,
+                this project facilitates the analysis of simulation results in
+                real-time, offering valuable insights into optimal vehicle design,
+                control strategies, and energy management techniques for sustainable
+                electric mobility. By evaluating the performance of EVs under diverse
+                driving scenarios and assessing the impact of regenerative braking
+                on energy efficiency, this research contributes to the advancement
+                of electric vehicle technology, paving the way for more
+                environmentally friendly and efficient transportation solutions in
+                the future.
+              </p>
             </div>
+          </div>
+        </div>
 
-            <div class="edu-card reveal" style="transition-delay: 0.2s;">
-                <div class="edu-year">2017 — 2018</div>
-                <h3 class="edu-title">Secondary School</h3>
-                <div class="edu-school">Flora English Medium School, Vuyyuru</div>
-                <div class="edu-score">GPA: 10/10</div>
-            </div>
-        </section>
-
-        <section id="contact" style="padding-top: 0;">
-            <h2 class="section-title reveal" style="margin-bottom: 2rem;">Get In Touch</h2>
-            
-            <div class="contact-content reveal">
-                <div class="avatar-container">
-                    <div class="ripple"></div>
-                    <div class="avatar">NBR</div>
+        <div class="edu-timeline-item reveal" style="transition-delay: 0.15s">
+          <div class="edu-timeline-marker secondary">
+            <i class="fa-solid fa-school"></i>
+          </div>
+          <div class="edu-timeline-content">
+            <div class="edu-header">
+              <div>
+                <h3 class="edu-degree">Intermediate (MPC)</h3>
+                <div class="edu-institution">
+                  Narayana Junior College, Vijayawada
                 </div>
-
-                <div class="contact-cards">
-                    <a href="mailto:rohithnidumolu@gmail.com" class="contact-item">
-                        <i class="fa-solid fa-envelope"></i>
-                        <div class="contact-text">
-                            <h5>Email</h5>
-                            <p>rohithnidumolu@gmail.com</p>
-                        </div>
-                    </a>
-                    <a href="tel:+917386432810" class="contact-item">
-                        <i class="fa-solid fa-phone"></i>
-                        <div class="contact-text">
-                            <h5>Phone</h5>
-                            <p>+91 73864 32810</p>
-                        </div>
-                    </a>
-                    <a href="https://linkedin.com/in/rohithnidumolu" target="_blank" class="contact-item">
-                        <i class="fa-brands fa-linkedin"></i>
-                        <div class="contact-text">
-                            <h5>LinkedIn</h5>
-                            <p>in/rohithnidumolu</p>
-                        </div>
-                    </a>
-                    <a href="https://github.com/Rohith-180503" target="_blank" class="contact-item">
-                        <i class="fa-brands fa-github"></i>
-                        <div class="contact-text">
-                            <h5>GitHub</h5>
-                            <p>Rohith-180503</p>
-                        </div>
-                    </a>
-                    <div class="contact-item" style="cursor: default;">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <div class="contact-text">
-                            <h5>Location</h5>
-                            <p>Vuyyuru, Andhra Pradesh</p>
-                        </div>
-                    </div>
-                </div>
+              </div>
+              <span class="edu-duration">2018 — 2020</span>
             </div>
-        </section>
+            <div class="edu-grade">Score: 910/1000 (91%)</div>
+          </div>
+        </div>
+
+        <div class="edu-timeline-item reveal" style="transition-delay: 0.3s">
+          <div class="edu-timeline-marker secondary">
+            <i class="fa-solid fa-book"></i>
+          </div>
+          <div class="edu-timeline-content">
+            <div class="edu-header">
+              <div>
+                <h3 class="edu-degree">Secondary School (Class X)</h3>
+                <div class="edu-institution">
+                  Flora English Medium School, Vuyyuru
+                </div>
+              </div>
+              <span class="edu-duration">2017 — 2018</span>
+            </div>
+            <div class="edu-grade">GPA: 10/10</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title reveal">Get In Touch</h2>
+      <div class="contact-content reveal">
+        <div class="avatar-container">
+          <div class="ripple"></div>
+          <div class="avatar">NBR</div>
+        </div>
+
+        <div class="contact-cards">
+          <a
+            href="mailto:rohithnidumolu@gmail.com?subject=Inquiry regarding Full-Stack Developer Role&body=Hello Rohith, I found your portfolio and would like to connect regarding..."
+            class="contact-item"
+          >
+            <i class="fa-solid fa-envelope"></i>
+            <div class="contact-text">
+              <h5>Email</h5>
+              <p>rohithnidumolu@gmail.com</p>
+            </div>
+            <span
+              style="
+                margin-left: auto;
+                font-size: 0.75rem;
+                color: var(--accent-pink);
+                font-weight: 600;
+              "
+              >Quick Message <i class="fa-solid fa-paper-plane"></i
+            ></span>
+          </a>
+          <a href="tel:+917386432810" class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <div class="contact-text">
+              <h5>Phone</h5>
+              <p>+91 73864 32810</p>
+            </div>
+          </a>
+          <a
+            href="https://linkedin.com/in/rohithnidumolu"
+            target="_blank"
+            class="contact-item"
+          >
+            <i class="fa-brands fa-linkedin"></i>
+            <div class="contact-text">
+              <h5>LinkedIn</h5>
+              <p>in/rohithnidumolu</p>
+            </div>
+          </a>
+          <a
+            href="https://github.com/Rohith-180503"
+            target="_blank"
+            class="contact-item"
+          >
+            <i class="fa-brands fa-github"></i>
+            <div class="contact-text">
+              <h5>GitHub</h5>
+              <p>Rohith-180503</p>
+            </div>
+          </a>
+          <div class="contact-item" style="cursor: default">
+            <i class="fa-solid fa-location-dot"></i>
+            <div class="contact-text">
+              <h5>Location</h5>
+              <p>Vuyyuru, Andhra Pradesh</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="accent-switcher">
+      <div class="accent-dot dot-indigo active" data-color="#6366f1"></div>
+      <div class="accent-dot dot-pink" data-color="#ec4899"></div>
+      <div class="accent-dot dot-cyan" data-color="#06b6d4"></div>
+      <div class="accent-dot dot-amber" data-color="#f59e0b"></div>
+    </div>
+
+    <div class="modal-overlay" id="project-modal">
+      <div class="modal-content">
+        <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+        <h3 class="modal-title" id="modal-title">Project Title</h3>
+        <div class="modal-body" id="modal-body">
+          <!-- Data injected via JS -->
+        </div>
+      </div>
     </div>
 
     <footer>
-        <div style="margin-bottom: 1rem;">
-            <a href="https://linkedin.com/in/rohithnidumolu" target="_blank" style="color: var(--text-muted); font-size: 1.5rem; margin: 0 10px; transition: color 0.3s;"><i class="fa-brands fa-linkedin"></i></a>
-            <a href="https://github.com/Rohith-180503" target="_blank" style="color: var(--text-muted); font-size: 1.5rem; margin: 0 10px; transition: color 0.3s;"><i class="fa-brands fa-github"></i></a>
-            <a href="https://rohith-180503.github.io/PORTFOLIO" target="_blank" style="color: var(--text-muted); font-size: 1.5rem; margin: 0 10px; transition: color 0.3s;"><i class="fa-solid fa-globe"></i></a>
-        </div>
-        <p>&copy; 2026 Nidumolu Bala Rohith. Designed & Built with ❤️</p>
+      <div style="margin-bottom: 1rem">
+        <a
+          href="https://linkedin.com/in/rohithnidumolu"
+          target="_blank"
+          style="
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+          "
+          ><i class="fa-brands fa-linkedin"></i
+        ></a>
+        <a
+          href="https://github.com/Rohith-180503"
+          target="_blank"
+          style="
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+          "
+          ><i class="fa-brands fa-github"></i
+        ></a>
+        <a
+          href="https://rohith-180503.github.io/PORTFOLIO"
+          target="_blank"
+          style="
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+          "
+          ><i class="fa-solid fa-globe"></i
+        ></a>
+      </div>
+      <p>&copy; 2026 Nidumolu Bala Rohith. Designed & Built with ❤️</p>
     </footer>
 
-    <script>
-        // Loading Screen
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    handleScroll();
-                }, 800);
-            }, 2000);
-        });
-
-        // Custom Cursor
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorRing = document.querySelector('.cursor-ring');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                cursorRing.style.left = e.clientX + 'px';
-                cursorRing.style.top = e.clientY + 'px';
-            }, 60);
-        });
-
-        const interactives = document.querySelectorAll('a, button, .project-card, .timeline-content');
-        interactives.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursorDot.classList.add('hover');
-                cursorRing.classList.add('hover');
-            });
-            el.addEventListener('mouseleave', () => {
-                cursorDot.classList.remove('hover');
-                cursorRing.classList.remove('hover');
-            });
-        });
-
-        // Navbar Scroll Effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Mobile Menu
-        const menuBtn = document.getElementById('menu-btn');
-        const navLinks = document.getElementById('nav-links');
-        menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-        });
-
-        // Smooth Scroll & Active Link
-        const sections = document.querySelectorAll('section');
-        const navItems = document.querySelectorAll('.nav-links a');
-
-        navItems.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                navLinks.classList.remove('show');
-                const targetId = this.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                window.scrollTo({
-                    top: targetSection.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        function handleScroll() {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= (sectionTop - 250)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navItems.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').substring(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-        }
-        window.addEventListener('scroll', handleScroll);
-
-        // Intersection Observer for fluid reveals
-        const reveals = document.querySelectorAll('.reveal');
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    
-                    if (entry.target.classList.contains('skill-group')) {
-                        const bars = entry.target.querySelectorAll('.skill-progress');
-                        bars.forEach(bar => {
-                            bar.style.width = bar.getAttribute('data-width');
-                        });
-                    }
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        reveals.forEach(reveal => {
-            observer.observe(reveal);
-        });
-
-        // 3D Tilt Effect - Improved smoothing
-        const tiltCard = document.getElementById('tilt-card');
-        const heroSection = document.querySelector('.hero');
-        
-        let tiltAnimation;
-        heroSection.addEventListener('mousemove', (e) => {
-            cancelAnimationFrame(tiltAnimation);
-            tiltAnimation = requestAnimationFrame(() => {
-                const rect = tiltCard.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                const multiplier = 15;
-                const xRotate = -y / rect.height * multiplier;
-                const yRotate = x / rect.width * multiplier;
-                
-                tiltCard.style.transform = `perspective(1000px) rotateX(${xRotate}deg) rotateY(${yRotate}deg) scale3d(1.03, 1.03, 1.03)`;
-            });
-        });
-        
-        heroSection.addEventListener('mouseleave', () => {
-            cancelAnimationFrame(tiltAnimation);
-            tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-        });
-
-        // Particle Canvas Background
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height, particles;
-
-        function initCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            particles = [];
-            
-            const numParticles = Math.min(Math.floor(width * height / 12000), 120);
-            
-            for (let i = 0; i < numParticles; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                    radius: Math.random() * 2 + 0.5
-                });
-            }
-        }
-
-        function drawParticles() {
-            ctx.clearRect(0, 0, width, height);
-            
-            const cyan = 'rgba(6, 182, 212, 0.4)';
-            const indigo = 'rgba(99, 102, 241, 0.4)';
-            
-            for (let i = 0; i < particles.length; i++) {
-                let p = particles[i];
-                
-                p.x += p.vx;
-                p.y += p.vy;
-                
-                if (p.x < 0) p.x = width;
-                if (p.x > width) p.x = 0;
-                if (p.y < 0) p.y = height;
-                if (p.y > height) p.y = 0;
-                
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = i % 2 === 0 ? cyan : indigo;
-                ctx.fill();
-                
-                for (let j = i + 1; j < particles.length; j++) {
-                    let p2 = particles[j];
-                    let dx = p.x - p2.x;
-                    let dy = p.y - p2.y;
-                    let dist = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (dist < 130) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.08 - dist/1600})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(drawParticles);
-        }
-
-        window.addEventListener('resize', () => {
-            initCanvas();
-        });
-
-        initCanvas();
-        drawParticles();
-
-    </script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
