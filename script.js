@@ -1,375 +1,411 @@
-// Loading Screen
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const loader = document.getElementById("loader");
-    loader.style.opacity = "0";
-    setTimeout(() => {
-      loader.style.display = "none";
-      handleScroll();
-    }, 800);
-  }, 2000);
-});
+/* ==========================================================================
+   NOIR//NEXUS — CLIENT INTERACTION ENGINE
+   Aesthetic: Obsidian Black + Electric Lime + Cybernetic Fluid Interactions
+   ========================================================================== */
 
-// Custom Cursor
-const cursorDot = document.querySelector(".cursor-dot");
-const cursorRing = document.querySelector(".cursor-ring");
-
-document.addEventListener("mousemove", (e) => {
-  cursorDot.style.left = e.clientX + "px";
-  cursorDot.style.top = e.clientY + "px";
-
-  setTimeout(() => {
-    cursorRing.style.left = e.clientX + "px";
-    cursorRing.style.top = e.clientY + "px";
-  }, 60);
-});
-
-const interactives = document.querySelectorAll(
-  "a, button, .project-card, .timeline-content",
-);
-interactives.forEach((el) => {
-  el.addEventListener("mouseenter", () => {
-    cursorDot.classList.add("hover");
-    cursorRing.classList.add("hover");
-  });
-  el.addEventListener("mouseleave", () => {
-    cursorDot.classList.remove("hover");
-    cursorRing.classList.remove("hover");
-  });
-});
-
-// Navbar Scroll Effect
-const navbar = document.getElementById("navbar");
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 50) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
-});
-
-// Mobile Menu
-const menuBtn = document.getElementById("menu-btn");
-const navLinks = document.getElementById("nav-links");
-menuBtn.addEventListener("click", () => {
-  navLinks.classList.toggle("show");
-});
-
-// Smooth Scroll & Active Link
-const sections = document.querySelectorAll("section");
-const navItems = document.querySelectorAll(".nav-links a");
-
-navItems.forEach((link) => {
-  link.addEventListener("click", function (e) {
-    e.preventDefault();
-    navLinks.classList.remove("show");
-    const targetId = this.getAttribute("href").substring(1);
-    const targetSection = document.getElementById(targetId);
-    window.scrollTo({
-      top: targetSection.offsetTop - 80,
-      behavior: "smooth",
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Initial Loading Screen
+  const loader = document.getElementById("loader");
+  if (loader) {
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        loader.style.opacity = "0";
+        setTimeout(() => {
+          loader.style.visibility = "hidden";
+        }, 600);
+      }, 500);
     });
-  });
-});
 
-function handleScroll() {
-  let current = "";
-  sections.forEach((section) => {
-    const sectionTop = section.offsetTop;
-    if (pageYOffset >= sectionTop - 250) {
-      current = section.getAttribute("id");
+    // Fallback if load event already triggered or slow
+    setTimeout(() => {
+      if (loader.style.visibility !== "hidden") {
+        loader.style.opacity = "0";
+        setTimeout(() => {
+          loader.style.visibility = "hidden";
+        }, 600);
+      }
+    }, 2500);
+  }
+
+  // 2. Custom Interactive Cursor
+  const cursorDot = document.querySelector(".cursor-dot");
+  const cursorRing = document.querySelector(".cursor-ring");
+
+  if (cursorDot && cursorRing && window.matchMedia("(pointer: fine)").matches) {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    });
+
+    // Smooth Lerp for ring
+    const renderCursor = () => {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      cursorRing.style.left = `${ringX}px`;
+      cursorRing.style.top = `${ringY}px`;
+      requestAnimationFrame(renderCursor);
+    };
+    renderCursor();
+
+    // Hover effect on interactive elements
+    const interactiveElements = document.querySelectorAll(
+      "a, button, .project-card, .skill-card, .timeline-body, .edu-card, .contact-card"
+    );
+
+    interactiveElements.forEach((el) => {
+      el.addEventListener("mouseenter", () => cursorRing.classList.add("cursor-hover"));
+      el.addEventListener("mouseleave", () => cursorRing.classList.remove("cursor-hover"));
+    });
+  }
+
+  // 3. Navbar Sticky Effect & Mobile Menu
+  const navbar = document.getElementById("navbar");
+  const menuBtn = document.getElementById("menu-btn");
+  const navLinks = document.getElementById("nav-links");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 40) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
     }
+    updateActiveNav();
   });
 
-  navItems.forEach((link) => {
-    link.classList.remove("active");
-    if (link.getAttribute("href").substring(1) === current) {
-      link.classList.add("active");
-    }
-  });
-}
-window.addEventListener("scroll", handleScroll);
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener("click", () => {
+      const expanded = menuBtn.getAttribute("aria-expanded") === "true";
+      menuBtn.setAttribute("aria-expanded", !expanded);
+      navLinks.classList.toggle("show");
+    });
 
-// Intersection Observer for fluid reveals
-const reveals = document.querySelectorAll(".reveal");
-const observerOptions = {
-  threshold: 0.15,
-  rootMargin: "0px 0px -50px 0px",
-};
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        menuBtn.setAttribute("aria-expanded", "false");
+        navLinks.classList.remove("show");
+      });
+    });
+  }
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("active");
+  // 4. Smooth Section Tracking for Active Nav Link
+  const sections = document.querySelectorAll("section[id]");
+  const navItems = document.querySelectorAll(".nav-link");
 
-      if (entry.target.classList.contains("skill-group")) {
-        const bars = entry.target.querySelectorAll(".skill-progress");
-        bars.forEach((bar) => {
-          bar.style.width = bar.getAttribute("data-width");
+  function updateActiveNav() {
+    const scrollY = window.pageYOffset;
+    sections.forEach((section) => {
+      const sectionHeight = section.offsetHeight;
+      const sectionTop = section.offsetTop - 120;
+      const sectionId = section.getAttribute("id");
+
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        navItems.forEach((item) => {
+          item.classList.remove("active");
+          if (item.getAttribute("href") === `#${sectionId}`) {
+            item.classList.add("active");
+          }
         });
       }
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
-
-reveals.forEach((reveal) => {
-  observer.observe(reveal);
-});
-
-// 3D Tilt Effect - Improved smoothing
-const tiltCard = document.getElementById("tilt-card");
-const heroSection = document.querySelector(".hero");
-
-let tiltAnimation;
-heroSection.addEventListener("mousemove", (e) => {
-  cancelAnimationFrame(tiltAnimation);
-  tiltAnimation = requestAnimationFrame(() => {
-    const rect = tiltCard.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-
-    const multiplier = 15;
-    const xRotate = (-y / rect.height) * multiplier;
-    const yRotate = (x / rect.width) * multiplier;
-
-    tiltCard.style.transform = `perspective(1000px) rotateX(${xRotate}deg) rotateY(${yRotate}deg) scale3d(1.03, 1.03, 1.03)`;
-  });
-});
-
-heroSection.addEventListener("mouseleave", () => {
-  cancelAnimationFrame(tiltAnimation);
-  tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-});
-
-// Particle Canvas Background
-const canvas = document.getElementById("particle-canvas");
-const ctx = canvas.getContext("2d");
-let width, height, particles;
-
-function initCanvas() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  particles = [];
-
-  const numParticles = Math.min(Math.floor((width * height) / 12000), 120);
-
-  for (let i = 0; i < numParticles; i++) {
-    particles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      radius: Math.random() * 2 + 0.5,
     });
   }
-}
 
-function drawParticles() {
-  ctx.clearRect(0, 0, width, height);
+  // 5. Scroll Reveal with IntersectionObserver
+  const revealElements = document.querySelectorAll(".reveal");
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+  );
 
-  const cyan = "rgba(6, 182, 212, 0.4)";
-  const indigo = "rgba(99, 102, 241, 0.4)";
+  revealElements.forEach((el) => revealObserver.observe(el));
 
-  for (let i = 0; i < particles.length; i++) {
-    let p = particles[i];
+  // 6. Interactive 3D Tilt for Hero Code Window
+  const heroTilt = document.getElementById("hero-tilt");
+  const heroSection = document.getElementById("home");
 
-    p.x += p.vx;
-    p.y += p.vy;
+  if (heroTilt && heroSection) {
+    let isTilting = false;
 
-    if (p.x < 0) p.x = width;
-    if (p.x > width) p.x = 0;
-    if (p.y < 0) p.y = height;
-    if (p.y > height) p.y = 0;
+    heroSection.addEventListener("mousemove", (e) => {
+      if (window.innerWidth < 1024) return;
+      if (!isTilting) {
+        requestAnimationFrame(() => {
+          const rect = heroTilt.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const deltaX = (e.clientX - centerX) / (rect.width / 2);
+          const deltaY = (e.clientY - centerY) / (rect.height / 2);
 
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-    ctx.fillStyle = i % 2 === 0 ? cyan : indigo;
-    ctx.fill();
+          const rotX = -deltaY * 10;
+          const rotY = deltaX * 10;
 
-    for (let j = i + 1; j < particles.length; j++) {
-      let p2 = particles[j];
-      let dx = p.x - p2.x;
-      let dy = p.y - p2.y;
-      let dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (dist < 130) {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${0.08 - dist / 1600})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
+          heroTilt.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-4px)`;
+          isTilting = false;
+        });
+        isTilting = true;
       }
-    }
+    });
+
+    heroSection.addEventListener("mouseleave", () => {
+      heroTilt.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)";
+    });
   }
-  requestAnimationFrame(drawParticles);
-}
 
-window.addEventListener("resize", () => {
-  initCanvas();
-});
+  // 7. Ambient Particle Background
+  const canvas = document.getElementById("bg-canvas");
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let particles = [];
+    const particleCount = 48;
 
-// Accent Color Switcher
-const accentDots = document.querySelectorAll(".accent-dot");
-accentDots.forEach((dot) => {
-  dot.addEventListener("click", () => {
-    const color = dot.getAttribute("data-color");
-    document.documentElement.style.setProperty("--accent-main", color);
-    accentDots.forEach((d) => d.classList.remove("active"));
-    dot.classList.add("active");
-  });
-});
+    const resizeCanvas = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
 
-// Project Modals Data
-const projectData = {
-  learnhub: {
-    title: "LearnHub Full-Stack LMS",
-    content: `
-            <p>LearnHub is a professional-grade Learning Management System (LMS) designed to bridge the gap between educational content creators and ambitious learners. This comprehensive full-stack application represents a complete architectural transformation from a static UI prototype into a high-performance, secure, and dynamically scalable educational ecosystem. The platform supports multiple user roles including students, instructors, and administrators, each with tailored dashboards and functionality.</p>
-            <h4><i class="fa-solid fa-microchip"></i> Technical Architecture & Infrastructure</h4>
-            <ul>
-                <li><strong>Decoupled Full-Stack Design:</strong> Built with a modern React 19 frontend utilizing hooks, context API, and custom hooks for state management, communicating seamlessly with a robust Node.js/Express REST API backend. The architecture follows MVC patterns with clear separation of concerns.</li>
-                <li><strong>Advanced Authentication System:</strong> Implemented multi-layered security using httpOnly JWT cookies for session management, bcrypt password hashing with salt rounds, and CSRF token protection. This provides robust protection against XSS attacks, session hijacking, and unauthorized access attempts.</li>
-                <li><strong>Payment Processing Integration:</strong> Full Stripe Checkout flow implementation with secure webhook handling for enrollment automation, payment confirmation emails, invoice generation, and subscription management for premium course tiers.</li>
-                <li><strong>Database Architecture:</strong> MySQL relational database with optimized schema design including normalized tables for users, courses, lessons, enrollments, progress tracking, and payments. Implemented indexing strategies for fast query performance on large datasets.</li>
-            </ul>
-            <h4><i class="fa-solid fa-database"></i> Core Workflows & Features</h4>
-            <ul>
-                <li><strong>Intelligent Course Persistence:</strong> SQL-based tracking of lesson completion with percentage calculations, time spent analytics, bookmark functionality, and user curriculum trees that visualize learning paths and prerequisites.</li>
-                <li><strong>Smart Cart Synchronization:</strong> Advanced middleware logic to synchronize guest shopping carts with authenticated user accounts upon login, preserving wishlist items, and handling concurrent session conflicts.</li>
-                <li><strong>Content Management:</strong> Rich text editor integration for instructors, video upload handling with progress bars, file attachment management, and automated content moderation workflows.</li>
-                <li><strong>Real-time Notifications:</strong> WebSocket implementation for live course updates, instructor announcements, and peer-to-peer messaging within learning communities.</li>
-            </ul>
-            <h4><i class="fa-solid fa-rocket"></i> Performance & Scalability</h4>
-            <ul>
-                <li><strong>Caching Strategy:</strong> Redis integration for session storage and frequently accessed course data, reducing database load by 60%.</li>
-                <li><strong>Image Optimization:</strong> Automatic WebP conversion and responsive image serving based on device viewport.</li>
-                <li><strong>Lazy Loading:</strong> Code-splitting and dynamic imports for course content, reducing initial bundle size by 40%.</li>
-            </ul>
-        `,
-  },
-  taskflow: {
-    title: "TaskFlow Manager",
-    content: `
-            <p>TaskFlow is a comprehensive productivity engine engineered to handle high-volume task management with sub-millisecond responsiveness, complete state reliability, and enterprise-grade data persistence. Built as a single-page application (SPA), it demonstrates advanced JavaScript patterns and browser API mastery while maintaining zero external dependencies for core functionality.</p>
-            <h4><i class="fa-solid fa-code-branch"></i> State Management & Data Architecture</h4>
-            <ul>
-                <li><strong>Intelligent Persistence Layer:</strong> Robust LocalStorage implementation featuring data versioning with migration guards, schema validation, compression algorithms for large datasets, and automatic backup/restore capabilities to prevent data loss during browser crashes.</li>
-                <li><strong>DOM Optimization Engine:</strong> Manual DOM manipulation using DocumentFragments for batch updates, event delegation patterns to minimize listener overhead, virtual scrolling for task lists exceeding 1000 items, and requestIdleCallback for non-critical background operations.</li>
-                <li><strong>Data Model Design:</strong> Normalized task objects with UUID generation, timestamp tracking for creation/modification/completion, priority scoring algorithms, tag categorization systems, and dependency mapping between related tasks.</li>
-            </ul>
-            <h4><i class="fa-solid fa-shield-halved"></i> Security, Accessibility & UX Excellence</h4>
-            <ul>
-                <li><strong>Content Security:</strong> Integrated DOMPurify library to prevent XSS attacks during Markdown rendering in task descriptions, with strict CSP headers and input sanitization on all user-generated content.</li>
-                <li><strong>Accessibility Compliance:</strong> Full WCAG 2.1 AA compliance including ARIA labels for dynamic content, keyboard navigation shortcuts (Ctrl+N for new task, Ctrl+D for delete), screen reader announcements via aria-live regions for toast notifications, and reduced motion support respecting prefers-reduced-motion settings.</li>
-                <li><strong>Progressive Web App Features:</strong> Service Worker implementation for offline functionality, background sync for task updates, install prompts, and native-like app behavior on mobile devices.</li>
-            </ul>
-            <h4><i class="fa-solid fa-wand-magic-sparkles"></i> Advanced Features</h4>
-            <ul>
-                <li><strong>Smart Task Organization:</strong> Drag-and-drop kanban board implementation using native HTML5 Drag API, custom sorting algorithms (by date, priority, tags), fuzzy search with highlighting, and filter persistence across sessions.</li>
-                <li><strong>Productivity Analytics:</strong> Visual charts using Canvas API showing completion rates, productivity trends, time estimation accuracy, and streak counters for consistent task completion.</li>
-                <li><strong>Integration Ready:</strong> Export functionality to CSV/JSON formats, iCal feed generation for calendar sync, and webhook support for third-party automation tools like Zapier.</li>
-            </ul>
-        `,
-  },
-  dragondash: {
-    title: "Dragon Dash Arcade",
-    content: `
-            <p>Dragon Dash is a precision-engineered browser-based arcade game that pushes the boundaries of JavaScript performance and canvas rendering. This project demonstrates deep understanding of game loop architecture, collision physics, sprite animation, and real-time input handling—all achieved without game engines or external libraries, utilizing only vanilla JavaScript and the HTML5 Canvas API.</p>
-            <h4><i class="fa-solid fa-gauge-high"></i> Performance & Rendering Architecture</h4>
-            <ul>
-                <li><strong>Frame-Perfect Animation System:</strong> Custom game loop utilizing high-precision <code>requestAnimationFrame</code> with delta time calculations for consistent character movement across different refresh rates (60Hz to 144Hz). Implemented frame interpolation for smooth sprite animations.</li>
-                <li><strong>Spatial Collision Engine:</strong> Custom AABB (Axis-Aligned Bounding Box) collision detection with pixel-perfect accuracy, quadtree spatial partitioning for efficient collision checks with hundreds of obstacles, and predictive collision detection to prevent tunneling at high velocities.</li>
-                <li><strong>Canvas Rendering Optimization:</strong> Offscreen canvas pre-rendering for static backgrounds, sprite batching to minimize draw calls, dirty rectangle tracking for partial screen updates, and automatic quality scaling based on device performance metrics.</li>
-            </ul>
-            <h4><i class="fa-solid fa-gamepad"></i> Game Mechanics & Systems Design</h4>
-            <ul>
-                <li><strong>Procedural Content Generation:</strong> Dynamic obstacle spawning algorithms using Perlin noise for natural-feeling difficulty curves, weighted randomization for power-up distribution, and infinite level generation without repetition patterns.</li>
-                <li><strong>Finite State Machine:</strong> Lightweight FSM architecture managing game states (Menu → Playing → Paused → Game Over → Victory) with clean state transitions, event-driven callbacks, and memory leak prevention through proper cleanup routines.</li>
-                <li><strong>Physics Simulation:</strong> Gravity acceleration curves, jump velocity calculations, friction coefficients for ground/air movement, and knockback mechanics with invulnerability frames after taking damage.</li>
-            </ul>
-            <h4><i class="fa-solid fa-star"></i> Player Experience Features</h4>
-            <ul>
-                <li><strong>Input Responsiveness:</strong> Multi-input support (keyboard, touch, gamepad via Gamepad API), input buffering for jump commands, and adjustable input sensitivity settings.</li>
-                <li><strong>Progression Systems:</strong> Local high score storage with player initials, achievement unlocks for milestones, collectible coin economy, and unlockable dragon skins with unique particle effects.</li>
-                <li><strong>Audio Engine:</strong> Web Audio API integration for synthesized sound effects (jump, coin collect, crash), background music looping with dynamic tempo adjustment based on game intensity, and volume controls with mute options.</li>
-            </ul>
-        `,
-  },
-  netflix: {
-    title: "Netflix India Clone",
-    content: `
-            <p>This project is a pixel-perfect, fully responsive technical replication of Netflix India's streaming landing page, engineered to demonstrate mastery of modern CSS layout techniques, performance optimization, and responsive design principles. Every visual element—from the hero gradient overlays to the FAQ accordion animations—was hand-coded without frameworks, proving deep understanding of the web platform's native capabilities.</p>
-            <h4><i class="fa-solid fa-palette"></i> Design Engineering & CSS Architecture</h4>
-            <ul>
-                <li><strong>Advanced Layout Systems:</strong> Sophisticated integration of CSS Grid for complex multi-column footer structures and hero section alignments, combined with Flexbox for component-level layouts. Implemented subgrid patterns and container queries for component-scoped responsive behavior.</li>
-                <li><strong>Asset Integration & Optimization:</strong> Optimized handling of autoplaying background videos with multiple format fallbacks (WebM, MP4), poster image placeholders for reduced data usage, lazy loading implementation for below-fold images, and semi-transparent gradient overlays using CSS linear-gradients with multiple color stops.</li>
-                <li><strong>Visual Polish:</strong> CSS-only shimmer loading effects, custom scrollbar styling, focus-visible outlines for accessibility, and smooth scroll behavior with scroll-snap points for carousel sections.</li>
-            </ul>
-            <h4><i class="fa-solid fa-mobile-screen"></i> Responsive Strategy & Interactivity</h4>
-            <ul>
-                <li><strong>Fluid Typography System:</strong> Zero-breakpoint-jump design using clamp() functions for fluid type scaling, viewport-relative spacing with CSS custom properties, and aspect-ratio preservation for video thumbnails across all device sizes.</li>
-                <li><strong>Interactive FAQ Accordion:</strong> Custom-built accordion logic using CSS max-height transitions for smooth expand/collapse animations, ARIA expanded state management for accessibility, and rotating SVG chevron icons synchronized with animation timing.</li>
-                <li><strong>Mobile-First Navigation:</strong> Hamburger menu transformation animations, touch-optimized gesture handling for carousels, and responsive image art direction using picture elements and srcset attributes.</li>
-            </ul>
-            <h4><i class="fa-solid fa-bolt"></i> Performance & Accessibility</h4>
-            <ul>
-                <li><strong>Loading Strategy:</strong> Critical CSS inlining, deferred non-critical stylesheet loading, and intersection observer-based lazy loading for images entering the viewport.</li>
-                <li><strong>Semantic HTML:</strong> Proper heading hierarchy, landmark regions (header, main, footer, nav), alt text for all images, and color contrast ratios exceeding WCAG AA standards.</li>
-                <li><strong>Form Handling:</strong> Email validation with regex patterns, custom-styled form controls that maintain accessibility, and error message displays with aria-describedby associations.</li>
-            </ul>
-        `,
-  },
-};
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-// Modal Logic
-const modal = document.getElementById("project-modal");
-const modalTitle = document.getElementById("modal-title");
-const modalBody = document.getElementById("modal-body");
-const modalClose = document.querySelector(".modal-close");
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        radius: Math.random() * 1.8 + 0.6,
+        alpha: Math.random() * 0.4 + 0.15,
+        color: Math.random() > 0.4 ? "16, 240, 116" : "0, 240, 255",
+      });
+    }
 
-document.querySelectorAll(".btn-project").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const project = btn.getAttribute("data-project");
-    const data = projectData[project];
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 130) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            const lineAlpha = (1 - dist / 130) * 0.12;
+            ctx.strokeStyle = `rgba(16, 240, 116, ${lineAlpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw dots
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  }
+
+  // 8. Project Deep Dive Modal System
+  const modal = document.getElementById("project-modal");
+  const modalClose = document.getElementById("modal-close");
+  const modalBadge = document.getElementById("modal-badge");
+  const modalTitle = document.getElementById("modal-project-title");
+  const modalMeta = document.getElementById("modal-project-meta");
+  const modalBody = document.getElementById("modal-project-body");
+  const modalLinks = document.getElementById("modal-project-links");
+
+  const projectDetails = {
+    learnhub: {
+      badge: "FEATURED ARCHITECTURE • FULL-STACK LMS",
+      title: "LearnHub Learning Management System",
+      tech: ["React 19", "Node.js", "Express", "MySQL", "Stripe API", "JWT", "Bcrypt", "REST API"],
+      liveUrl: "https://learnhub-elwb.onrender.com",
+      githubUrl: "https://github.com/Rohith-180503/ONLINE-LEARNING-WEBSITE",
+      body: `
+        <p>LearnHub represents a production-grade full-stack LMS engineered from the ground up to support modern online education workflows. The architecture pairs a decoupled React 19 single-page application with a secure Node.js/Express REST backend and a structured MySQL database.</p>
+        
+        <h4><i class="fa-solid fa-shield-halved"></i> Security & Authentication Architecture</h4>
+        <ul>
+          <li><strong>HttpOnly JWT Authentication:</strong> Token-based authentication utilizing HttpOnly cookies to protect against XSS and cross-site credential theft.</li>
+          <li><strong>Password Security:</strong> Cryptographic hashing via bcrypt with salt rounds and strict password validation schemas.</li>
+          <li><strong>Role-Based Access Control:</strong> Middleware-enforced authorization hierarchies distinguishing Students, Instructors, and Admin users.</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-credit-card"></i> Payment Processing & Course Enrollment</h4>
+        <ul>
+          <li><strong>Stripe Checkout Integration:</strong> Secure checkout sessions handling end-to-end payments with live webhooks for instant order confirmation and automated student enrollment.</li>
+          <li><strong>Course Progress & Persistence:</strong> Real-time progress tracking persisting module completions, video watch milestones, and completion certificates.</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-database"></i> Database Design & Performance</h4>
+        <ul>
+          <li><strong>Relational Data Modeling:</strong> Normalized MySQL schema linking users, courses, lesson modules, enrollments, and transactions.</li>
+          <li><strong>Optimized Queries:</strong> Parameterized SQL queries preventing injection vulnerabilities and index tuning for low-latency lookups.</li>
+        </ul>
+      `
+    },
+    taskflow: {
+      badge: "PRODUCTIVITY ENGINE • SPA & ACCESSIBILITY",
+      title: "TaskFlow Manager",
+      tech: ["Vanilla JavaScript", "HTML5", "CSS3", "DOMPurify", "LocalStorage API", "ARIA 2.1"],
+      liveUrl: "https://taskflow-nm5v.onrender.com",
+      githubUrl: "https://github.com/Rohith-180503/TODO-LIST-APP",
+      body: `
+        <p>TaskFlow is a high-performance productivity tool designed for rapid, uninterrupted daily workflows. Engineered with pure vanilla JavaScript, it demonstrates deep mastery of browser APIs, clean state management, and strict security and accessibility principles.</p>
+
+        <h4><i class="fa-solid fa-code"></i> Engineering Highlights</h4>
+        <ul>
+          <li><strong>State Persistence & Migration:</strong> Robust LocalStorage storage schema with defensive parsing, version migration checks, and error recovery.</li>
+          <li><strong>DOM Sanitization:</strong> Integrated DOMPurify to neutralize potential XSS vectors when rendering user-entered markdown and descriptions.</li>
+          <li><strong>Sub-Millisecond UI Updates:</strong> Optimized DOM reflows using DocumentFragments and delegated event handling for silky-smooth responsiveness.</li>
+          <li><strong>Accessibility Compliance:</strong> Complete WCAG 2.1 AA keyboard support, dynamic ARIA live regions, and semantic roles.</li>
+        </ul>
+      `
+    },
+    dragondash: {
+      badge: "GAME DEVELOPMENT • 2D PHYSICS ENGINE",
+      title: "Dragon Dash Arcade",
+      tech: ["JavaScript", "HTML5 Canvas", "AABB Physics", "Web Audio API", "requestAnimationFrame"],
+      liveUrl: null,
+      githubUrl: "https://github.com/Rohith-180503/DRAGON-DASH-GAME",
+      body: `
+        <p>Dragon Dash is an arcade-style 2D side-scrolling browser game built strictly with vanilla JavaScript and the HTML5 Canvas API without any external game engines or helper libraries.</p>
+
+        <h4><i class="fa-solid fa-gamepad"></i> Systems Architecture</h4>
+        <ul>
+          <li><strong>Tick-Rate Independent Game Loop:</strong> Frame-rate smoothed loop using <code>requestAnimationFrame</code> with delta-time calculation to ensure consistent physics across 60Hz, 120Hz, and 144Hz monitors.</li>
+          <li><strong>Collision Physics:</strong> High-precision Axis-Aligned Bounding Box (AABB) spatial detection system with obstacle bounding hulls and jump velocity curves.</li>
+          <li><strong>Procedural Obstacle Spawner:</strong> Dynamic velocity ramp algorithms and randomized hazard spacing creating increasing difficulty.</li>
+        </ul>
+      `
+    },
+    netflix: {
+      badge: "CREATIVE FRONTEND • RESPONSIVE CLONE",
+      title: "Netflix India Clone",
+      tech: ["HTML5", "CSS3", "CSS Grid", "Flexbox", "Fluid Typography", "Responsive Video"],
+      liveUrl: null,
+      githubUrl: "https://github.com/Rohith-180503/NETFLIX-CLONE",
+      body: `
+        <p>A pixel-accurate recreation of Netflix India's high-converting landing page showcasing modern CSS layout techniques, advanced typography hierarchy, and performant multimedia presentation.</p>
+
+        <h4><i class="fa-solid fa-palette"></i> Design & CSS Implementation</h4>
+        <ul>
+          <li><strong>Zero-Framework CSS Mastery:</strong> Complex nested CSS Grid and Flexbox layouts without external utility frameworks.</li>
+          <li><strong>Interactive FAQ Accordion:</strong> Accessible, animated accordion controls with smooth max-height transitions and chevron rotations.</li>
+          <li><strong>Fluid Typography & Viewports:</strong> Precision clamp() typography scaling perfectly across small smartphones up to 4K ultra-wide monitors.</li>
+        </ul>
+      `
+    }
+  };
+
+  const openProjectModal = (projectId) => {
+    const data = projectDetails[projectId];
+    if (!data) return;
+
+    modalBadge.textContent = data.badge;
     modalTitle.textContent = data.title;
-    modalBody.innerHTML = data.content;
+
+    // Render Tech tags
+    modalMeta.innerHTML = data.tech
+      .map((t) => `<span class="tech-badge tech-badge-alt">${t}</span>`)
+      .join("");
+
+    // Render Body
+    modalBody.innerHTML = data.body;
+
+    // Render Action Buttons
+    let linksHtml = "";
+    if (data.liveUrl) {
+      linksHtml += `<a href="${data.liveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>Live Demo</span></a>`;
+    }
+    if (data.githubUrl) {
+      linksHtml += `<a href="${data.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm"><i class="fa-brands fa-github"></i><span>GitHub Repo</span></a>`;
+    }
+    modalLinks.innerHTML = linksHtml;
+
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
-  });
-});
+  };
 
-modalClose.addEventListener("click", () => {
-  modal.classList.remove("active");
-  document.body.style.overflow = "auto";
-});
+  const closeProjectModal = () => {
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  };
 
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) modalClose.click();
-});
-
-// Skills-to-Project Interaction
-const skillChips = document.querySelectorAll(".chip[data-skill]");
-const projectCards = document.querySelectorAll(".project-card");
-
-skillChips.forEach((chip) => {
-  chip.addEventListener("mouseenter", () => {
-    const skill = chip.getAttribute("data-skill");
-    projectCards.forEach((card) => {
-      const techs = card
-        .querySelector(".project-tech")
-        .getAttribute("data-tech");
-      if (techs && techs.split(",").includes(skill)) {
-        card.classList.add("highlight");
-      }
+  // Open modal on click
+  document.querySelectorAll(".btn-details, .proj-deepdive").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const projId = btn.getAttribute("data-project");
+      openProjectModal(projId);
     });
   });
-  chip.addEventListener("mouseleave", () => {
-    projectCards.forEach((card) => card.classList.remove("highlight"));
-  });
-});
 
-// Initialize
-initCanvas();
-drawParticles();
+  if (modalClose) {
+    modalClose.addEventListener("click", closeProjectModal);
+  }
+
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeProjectModal();
+    });
+  }
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && modal.classList.contains("active")) {
+      closeProjectModal();
+    }
+  });
+
+  // 9. Copy Email to Clipboard
+  const copyBtn = document.getElementById("copy-email-btn");
+  const copyText = document.getElementById("copy-email-text");
+
+  if (copyBtn && copyText) {
+    copyBtn.addEventListener("click", () => {
+      const email = "rohithnidumolu@gmail.com";
+      navigator.clipboard.writeText(email).then(() => {
+        const originalText = copyText.textContent;
+        copyText.textContent = "Copied to Clipboard!";
+        copyBtn.style.borderColor = "var(--accent-lime)";
+        copyBtn.style.color = "var(--accent-lime)";
+
+        setTimeout(() => {
+          copyText.textContent = originalText;
+          copyBtn.style.borderColor = "";
+          copyBtn.style.color = "";
+        }, 2200);
+      });
+    });
+  }
+});

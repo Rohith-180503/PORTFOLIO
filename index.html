@@ -3,570 +3,374 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nidumolu Bala Rohith | Portfolio</title>
-    <meta
-      name="description"
-      content="Portfolio of Nidumolu Bala Rohith - Entry-level software developer"
-    />
+    <title>Nidumolu Bala Rohith — Full-Stack Developer</title>
+    <meta name="description" content="Nidumolu Bala Rohith — Full-Stack Developer specializing in React, Node.js, Java and modern databases. Building thoughtful web applications with clean, maintainable code." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Syne:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="loader">
-      <div class="loader-initials">NBR</div>
-      <div class="loader-bar-container">
-        <div class="loader-bar"></div>
+    <!-- Loader -->
+    <div id="loader" aria-hidden="true">
+      <div class="loader-inner">
+        <div class="loader-wordmark">NBR</div>
+        <div class="loader-sublabel">INITIALIZING PORTFOLIO</div>
+        <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
       </div>
     </div>
 
-    <div class="cursor-dot"></div>
-    <div class="cursor-ring"></div>
+    <!-- Cursor -->
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
 
-    <canvas id="particle-canvas"></canvas>
-    <div class="noise-overlay"></div>
+    <!-- Background -->
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <div class="noise-overlay" aria-hidden="true"></div>
 
-    <div class="social-sidebar reveal active">
-      <a
-        href="https://linkedin.com/in/rohithnidumolu"
-        target="_blank"
-        title="LinkedIn"
-        ><i class="fa-brands fa-linkedin"></i
-      ></a>
-      <a href="https://github.com/Rohith-180503" target="_blank" title="GitHub"
-        ><i class="fa-brands fa-github"></i
-      ></a>
-      <a
-        href="https://rohith-180503.github.io/PORTFOLIO"
-        target="_blank"
-        title="Portfolio"
-        ><i class="fa-solid fa-globe"></i
-      ></a>
-    </div>
-
-    <nav id="navbar">
-      <a href="#" class="logo">ROHITH<span>.</span></a>
-      <button class="mobile-menu-btn" id="menu-btn">
-        <i class="fa-solid fa-bars"></i>
+    <!-- Navigation -->
+    <nav id="navbar" role="navigation" aria-label="Main navigation">
+      <a href="#home" class="nav-logo" aria-label="Rohith Home">ROHITH<span class="logo-dot">.</span></a>
+      <button class="mobile-menu-btn" id="menu-btn" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
       </button>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#home" class="active">Home</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#contact">Contact</a></li>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+        <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+        <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+        <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+        <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
+        <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
       </ul>
     </nav>
 
-    <section id="home" class="hero">
-      <div class="hero-content reveal">
-        <span class="greeting">Hello, world! I am</span>
-        <h1 class="shimmer-name">Nidumolu Bala Rohith</h1>
-        <p class="subtitle">
-          I build practical, user-focused web applications using React,
-          Node.js, Express, Java, and modern databases. My recent work spans a
-          full-stack learning platform with JWT authentication and Stripe
-          payments, along with a task manager focused on persistence,
-          accessibility, and smooth user experience.
-        </p>
-        <div class="ctas">
-          <a href="#projects" class="btn btn-primary">View Projects</a>
-          <a
-            href="https://github.com/Rohith-180503"
-            target="_blank"
-            class="btn btn-secondary"
-            >GitHub Profile</a
-          >
+    <!-- HERO -->
+    <section id="home" class="hero" aria-label="Introduction">
+      <div class="hero-left reveal">
+        <div class="hero-label"><span class="label-dot"></span><span>FULL-STACK DEVELOPER</span></div>
+        <h1 class="hero-heading">
+          <span class="hero-line">I BUILD</span>
+          <span class="hero-line hero-line-accent">DIGITAL</span>
+          <span class="hero-line">EXPERIENCES.</span>
+        </h1>
+        <p class="hero-desc">I build thoughtful web applications by combining modern frontend experiences with reliable backend systems and clean, maintainable code.</p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn btn-primary"><span>Explore My Work</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="#contact" class="btn btn-secondary"><span>Get in Touch</span></a>
         </div>
+        <div class="hero-availability"><span class="avail-pulse" aria-hidden="true"></span><span class="avail-text">Open to opportunities</span></div>
       </div>
-      <div class="hero-visual reveal" style="transition-delay: 0.2s">
-        <div class="floating-card" id="tilt-card">
-          <div class="card-stat">
-            <div class="stat-icon i-projects">
-              <i class="fa-solid fa-layer-group"></i>
+      <div class="hero-right reveal" style="transition-delay:0.25s" aria-hidden="true">
+        <div class="hero-composition">
+          <div class="code-window" id="hero-tilt">
+            <div class="code-window-header">
+              <div class="window-dots"><span class="wd wd-red"></span><span class="wd wd-yellow"></span><span class="wd wd-green"></span></div>
+              <span class="window-title">portfolio.js</span>
             </div>
-            <div class="stat-info">
-              <h4>2 Live Projects</h4>
-              <p>Deployed and running on Render</p>
+            <div class="code-window-body">
+              <div class="code-line"><span class="tok-key">const</span> <span class="tok-var">developer</span> <span class="tok-op">=</span> <span class="tok-brace">{</span></div>
+              <div class="code-line indent"><span class="tok-prop">name</span><span class="tok-op">:</span> <span class="tok-str">"Rohith"</span><span class="tok-op">,</span></div>
+              <div class="code-line indent"><span class="tok-prop">stack</span><span class="tok-op">:</span> <span class="tok-brace">[</span><span class="tok-str">"React"</span><span class="tok-op">,</span> <span class="tok-str">"Node"</span><span class="tok-op">,</span> <span class="tok-str">"Java"</span><span class="tok-brace">]</span><span class="tok-op">,</span></div>
+              <div class="code-line indent"><span class="tok-prop">focus</span><span class="tok-op">:</span> <span class="tok-str">"Full-Stack"</span><span class="tok-op">,</span></div>
+              <div class="code-line indent"><span class="tok-prop">available</span><span class="tok-op">:</span> <span class="tok-bool">true</span></div>
+              <div class="code-line"><span class="tok-brace">}</span></div>
+              <div class="code-line">&nbsp;</div>
+              <div class="code-line"><span class="tok-key">export default</span> <span class="tok-var">developer</span><span class="tok-op">;</span></div>
+              <div class="code-cursor"></div>
             </div>
           </div>
-          <div class="card-stat">
-            <div class="stat-icon i-code"><i class="fa-solid fa-code"></i></div>
-            <div class="stat-info">
-              <h4>Full-Stack Focus</h4>
-              <p>React, Node.js, Java & Databases</p>
-            </div>
-          </div>
-          <div class="card-stat">
-            <div class="stat-icon i-edu">
-              <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-            <div class="stat-info">
-              <h4>B.Tech EEE</h4>
-              <p>SRKR Engineering College</p>
-            </div>
+          <div class="hero-badge badge-react"><i class="fa-brands fa-react"></i><span>React</span></div>
+          <div class="hero-badge badge-node"><i class="fa-brands fa-node-js"></i><span>Node.js</span></div>
+          <div class="hero-badge badge-java"><i class="fa-brands fa-java"></i><span>Java</span></div>
+          <div class="geo-circle geo-c1" aria-hidden="true"></div>
+          <div class="geo-circle geo-c2" aria-hidden="true"></div>
+          <div class="geo-line geo-l1" aria-hidden="true"></div>
+          <div class="hero-stat-panel">
+            <div class="stat-row"><span class="stat-num">4+</span><span class="stat-lbl">Projects</span></div>
+            <div class="stat-divider"></div>
+            <div class="stat-row"><span class="stat-num">2</span><span class="stat-lbl">Live Apps</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="skills">
-      <h2 class="section-title reveal">Skills Used in My Projects</h2>
-      <div class="skills-grid">
-        <div class="skill-group reveal">
-          <h3>Frontend & UI</h3>
-          <div class="tech-chips">
-            <div class="chip">HTML5</div>
-            <div class="chip">CSS3</div>
-            <div class="chip">JavaScript</div>
-            <div class="chip">React.js</div>
-            <div class="chip">Responsive Design</div>
-            <div class="chip">Accessibility</div>
-          </div>
-          <h3 style="margin-top: 2rem">Backend & APIs</h3>
-          <div class="tech-chips">
-            <div class="chip">Node.js</div>
-            <div class="chip">Express.js</div>
-            <div class="chip">REST APIs</div>
-            <div class="chip">JWT Auth</div>
-            <div class="chip">Stripe API</div>
-            <div class="chip">Java</div>
-            <div class="chip">Spring Boot</div>
+    <!-- ABOUT -->
+    <section id="about" class="about-section" aria-label="About me">
+      <div class="section-label-wrap reveal"><span class="section-label">01 &mdash; ABOUT</span></div>
+      <div class="about-grid">
+        <div class="about-left reveal">
+          <h2 class="section-heading">Crafting Code<br><span class="accent-lime">with Purpose.</span></h2>
+          <div class="about-divider"></div>
+          <p class="about-body">I'm <strong>Nidumolu Bala Rohith</strong>, a full-stack developer with a B.Tech in Electrical &amp; Electronics Engineering who discovered a passion for building web applications that genuinely solve problems.</p>
+          <p class="about-body">My path from electrical engineering to software development gave me a disciplined, systems-level perspective. I approach every application by thinking through data flow, architecture, and user experience before writing a single line of code.</p>
+          <p class="about-body">I specialize in building complete, end-to-end applications &mdash; from React UIs with thoughtful state management to secure Node.js and Java backends with well-designed database schemas.</p>
+          <div class="about-values">
+            <div class="value-item"><span class="value-icon"><i class="fa-solid fa-shield-halved"></i></span><div><div class="value-title">Security-Aware</div><div class="value-sub">JWT, bcrypt, input sanitization</div></div></div>
+            <div class="value-item"><span class="value-icon"><i class="fa-solid fa-universal-access"></i></span><div><div class="value-title">Accessibility First</div><div class="value-sub">ARIA, keyboard nav, semantic HTML</div></div></div>
+            <div class="value-item"><span class="value-icon"><i class="fa-solid fa-code-branch"></i></span><div><div class="value-title">Clean Architecture</div><div class="value-sub">MVC, separation of concerns</div></div></div>
           </div>
         </div>
-
-        <div class="skill-group reveal" style="transition-delay: 0.2s">
-          <h3>Databases & Tools</h3>
-          <div class="tech-chips">
-            <div class="chip" data-skill="mysql">MySQL</div>
-            <div class="chip" data-skill="mongodb">MongoDB</div>
-            <div class="chip" data-skill="sqlite">SQLite</div>
-            <div class="chip" data-skill="git">Git & GitHub</div>
-            <div class="chip" data-skill="vite">Vite</div>
-            <div class="chip" data-skill="postman">Postman</div>
-            <div class="chip" data-skill="render">Render</div>
-          </div>
-          <h3 style="margin-top: 2rem">Project Strengths</h3>
-          <div class="tech-chips">
-            <div class="chip">State Persistence</div>
-            <div class="chip">Secure Authentication</div>
-            <div class="chip">Debugging & Troubleshooting</div>
-            <div class="chip">Technical Documentation</div>
-            <div class="chip">Team Collaboration</div>
+        <div class="about-right reveal" style="transition-delay:0.2s">
+          <div class="about-card">
+            <div class="about-card-header"><span class="about-card-label">CURRENTLY BUILDING</span><span class="about-card-status"><span class="status-dot"></span>Active</span></div>
+            <div class="about-card-focus">Full-Stack LMS with React, Node.js, MySQL &amp; Stripe</div>
+            <div class="about-card-divider"></div>
+            <div class="about-card-header"><span class="about-card-label">BACKGROUND</span></div>
+            <div class="about-detail-list">
+              <div class="about-detail-item"><i class="fa-solid fa-graduation-cap"></i><span>B.Tech EEE &mdash; SRKR Engineering College (CGPA: 7.95)</span></div>
+              <div class="about-detail-item"><i class="fa-solid fa-briefcase"></i><span>Graduate Engineer Trainee &mdash; Voltech Engineers Pvt. Ltd.</span></div>
+              <div class="about-detail-item"><i class="fa-solid fa-location-dot"></i><span>Vuyyuru, Andhra Pradesh, India</span></div>
+            </div>
+            <div class="about-card-divider"></div>
+            <a href="assets/ROHITH-RESUME.pdf" target="_blank" class="btn btn-outline" download><i class="fa-solid fa-file-arrow-down"></i><span>Download Resume</span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="experience">
-      <h2 class="section-title reveal">Experience</h2>
-      <div class="timeline">
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <div class="timeline-date">Jul 2024 — Mar 2025</div>
-            <h3 class="timeline-title">Graduate Engineer Trainee</h3>
-            <div class="timeline-company">
-              Voltech Engineers Pvt. Ltd., Chennai
-            </div>
-            <ul class="timeline-list">
-              <li>
-                Supported high-voltage substation commissioning activities by
-                managing critical technical checks, comprehensive documentation,
-                and direct team coordination.
-              </li>
-              <li>
-                Designed and prepared accurate single-line diagrams and control
-                panel layout documents in strict adherence to industry
-                engineering standards.
-              </li>
-              <li>
-                Collaborated effectively with senior engineers during site and
-                system-level activities to assist with testing, prompt issue
-                identification, and troubleshooting.
-              </li>
-              <li>
-                Maintained detailed technical records and robust process
-                documentation, ensuring smooth project execution, compliance,
-                and improved operational workflows.
-              </li>
-            </ul>
+    <!-- SKILLS -->
+    <section id="skills" class="skills-section" aria-label="Technical skills">
+      <div class="section-label-wrap reveal"><span class="section-label">02 &mdash; TECH STACK</span></div>
+      <h2 class="section-heading reveal">Technologies I<br><span class="accent-lime">Work With.</span></h2>
+      <div class="skills-bento">
+        <div class="skill-card skill-card-frontend reveal">
+          <div class="skill-card-header"><span class="skill-category-label">FRONTEND</span><i class="fa-solid fa-desktop skill-icon-header"></i></div>
+          <div class="skill-tags"><span class="skill-tag">React</span><span class="skill-tag">JavaScript</span><span class="skill-tag">TypeScript</span><span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span class="skill-tag">Tailwind CSS</span></div>
+        </div>
+        <div class="skill-card skill-card-backend reveal" style="transition-delay:0.1s">
+          <div class="skill-card-header"><span class="skill-category-label">BACKEND</span><i class="fa-solid fa-server skill-icon-header"></i></div>
+          <div class="skill-tags"><span class="skill-tag">Java</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">Node.js</span><span class="skill-tag">Express.js</span><span class="skill-tag">REST APIs</span><span class="skill-tag">JWT</span><span class="skill-tag">Stripe API</span></div>
+        </div>
+        <div class="skill-card skill-card-db reveal" style="transition-delay:0.2s">
+          <div class="skill-card-header"><span class="skill-category-label">DATABASES</span><i class="fa-solid fa-database skill-icon-header"></i></div>
+          <div class="skill-tags"><span class="skill-tag">MySQL</span><span class="skill-tag">MongoDB</span><span class="skill-tag">SQLite</span><span class="skill-tag">H2</span></div>
+        </div>
+        <div class="skill-card skill-card-tools reveal" style="transition-delay:0.3s">
+          <div class="skill-card-header"><span class="skill-category-label">TOOLS &amp; DEPLOYMENT</span><i class="fa-solid fa-wrench skill-icon-header"></i></div>
+          <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">Docker</span><span class="skill-tag">Maven</span><span class="skill-tag">Vite</span><span class="skill-tag">Vercel</span><span class="skill-tag">Render</span><span class="skill-tag">Postman</span></div>
+        </div>
+        <div class="skill-card skill-card-strengths reveal" style="transition-delay:0.15s">
+          <div class="skill-card-header"><span class="skill-category-label">CORE STRENGTHS</span><i class="fa-solid fa-star skill-icon-header"></i></div>
+          <div class="strength-list">
+            <div class="strength-item"><i class="fa-solid fa-check"></i><span>Secure Authentication (JWT, bcrypt)</span></div>
+            <div class="strength-item"><i class="fa-solid fa-check"></i><span>Accessible UI (WCAG 2.1)</span></div>
+            <div class="strength-item"><i class="fa-solid fa-check"></i><span>State Management (Context API)</span></div>
+            <div class="strength-item"><i class="fa-solid fa-check"></i><span>Technical Documentation</span></div>
+            <div class="strength-item"><i class="fa-solid fa-check"></i><span>Debugging &amp; Troubleshooting</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="projects">
-      <h2 class="section-title reveal">Featured Projects</h2>
-      <div class="projects-grid">
-        <div class="project-card reveal">
-          <div class="project-header">
-            <div class="project-icon">🎓</div>
-            <div class="project-links">
-              <a
-                href="https://learnhub-elwb.onrender.com"
-                target="_blank"
-                title="View Live Project"
-                ><i class="fa-solid fa-arrow-up-right-from-square"></i
-              ></a>
-              <a
-                href="https://github.com/Rohith-180503/ONLINE-LEARNING-WEBSITE"
-                target="_blank"
-                title="View Source"
-                ><i class="fa-brands fa-github"></i
-              ></a>
-            </div>
-          </div>
-          <h3 class="project-title">LearnHub - Full-Stack LMS</h3>
-          <p class="project-desc">
-            A full-stack learning platform with secure login, course browsing,
-            progress tracking, and Stripe-based payments. Built with React,
-            Node.js, Express, and SQL to deliver a polished experience for
-            learners and administrators.
-          </p>
-          <div
-            class="project-tech"
-            data-tech="node,express,sqlite,react,jwt,stripe,rest"
-          >
-            <span>React</span>
-            <span>Node.js</span>
-            <span>Express</span>
-            <span>JWT</span>
-            <span>Stripe</span>
-            <span>MySQL</span>
-          </div>
-          <button class="btn-project" data-project="learnhub">
-            Explore Deep-Dive <i class="fa-solid fa-arrow-right-long"></i>
-          </button>
-        </div>
-
-        <div class="project-card reveal" style="transition-delay: 0.1s">
-          <div class="project-header">
-            <div class="project-icon">📝</div>
-            <div class="project-links">
-              <a
-                href="https://taskflow-nm5v.onrender.com"
-                target="_blank"
-                title="View Live Project"
-                ><i class="fa-solid fa-arrow-up-right-from-square"></i
-              ></a>
-              <a
-                href="https://github.com/Rohith-180503/TODO-LIST-APP"
-                target="_blank"
-                title="View Source"
-                ><i class="fa-brands fa-github"></i
-              ></a>
-            </div>
-          </div>
-          <h3 class="project-title">TaskFlow Manager</h3>
-          <p class="project-desc">
-            A productivity-focused web app for managing tasks with filtering,
-            undo actions, persistent storage, and accessible interactions.
-            Built with JavaScript and browser APIs to deliver a clean and
-            reliable user experience.
-          </p>
-          <div class="project-tech" data-tech="javascript,sqlite,rest">
-            <span>JavaScript</span>
-            <span>LocalStorage</span>
-            <span>DOMPurify</span>
-            <span>Accessibility</span>
-            <span>CSS3</span>
-          </div>
-          <button class="btn-project" data-project="taskflow">
-            Explore Deep-Dive <i class="fa-solid fa-arrow-right-long"></i>
-          </button>
-        </div>
-
-        <div class="project-card reveal" style="transition-delay: 0.2s">
-          <div class="project-header">
-            <div class="project-icon">🐉</div>
-            <div class="project-links">
-              <a
-                href="https://github.com/Rohith-180503/DRAGON-DASH-GAME"
-                target="_blank"
-                title="View Source"
-                ><i class="fa-brands fa-github"></i
-              ></a>
-            </div>
-          </div>
-          <h3 class="project-title">Dragon Dash Arcade</h3>
-          <p class="project-desc">
-            An immersive browser-based arcade game utilizing high-performance
-            animation synchronization and custom physics logic. Developed a
-            seamless gameplay loop with <code>requestAnimationFrame</code>,
-            advanced collision detection algorithms, and dynamic obstacle
-            generation to ensure low-latency interactive responsiveness.
-          </p>
-          <div class="project-tech" data-tech="javascript,logic">
-            <span>JavaScript</span>
-            <span>HTML Canvas</span>
-            <span>Animation API</span>
-            <span>Logic Design</span>
-          </div>
-          <button class="btn-project" data-project="dragondash">
-            Explore Deep-Dive <i class="fa-solid fa-arrow-right-long"></i>
-          </button>
-        </div>
-
-        <div class="project-card reveal" style="transition-delay: 0.3s">
-          <div class="project-header">
-            <div class="project-icon">🎬</div>
-            <div class="project-links">
-              <a
-                href="https://github.com/Rohith-180503/NETFLIX-CLONE"
-                target="_blank"
-                title="View Source"
-                ><i class="fa-brands fa-github"></i
-              ></a>
-            </div>
-          </div>
-          <h3 class="project-title">Netflix India Clone</h3>
-          <p class="project-desc">
-            A high-fidelity, fully responsive landing page clone prioritizing
-            pixel-perfect design and cinematic user engagement. Leveraged
-            advanced CSS Grid and Flexbox for precise layout control, integrated
-            autoplaying video mockups, and implemented interactive FAQ
-            components with smooth state transitions to replicate the premium
-            official experience.
-          </p>
-          <div class="project-tech" data-tech="html,css,flexbox,grid">
-            <span>HTML5</span>
-            <span>CSS3</span>
-            <span>Flexbox</span>
-            <span>CSS Grid</span>
-            <span>Responsive Design</span>
-          </div>
-          <button class="btn-project" data-project="netflix">
-            Explore Deep-Dive <i class="fa-solid fa-arrow-right-long"></i>
-          </button>
-        </div>
+    <!-- PROJECTS -->
+    <section id="projects" class="projects-section" aria-label="Projects">
+      <div class="section-label-wrap reveal"><span class="section-label">03 &mdash; PROJECTS</span></div>
+      <div class="projects-header">
+        <h2 class="section-heading reveal">Selected<br><span class="accent-lime">Work.</span></h2>
+        <a href="https://github.com/Rohith-180503" target="_blank" rel="noopener noreferrer" class="github-all-link reveal" style="transition-delay:0.1s"><i class="fa-brands fa-github"></i><span>All Repositories</span><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
       </div>
-    </section>
-
-    <section id="education">
-      <h2 class="section-title reveal">Education</h2>
-      <div class="edu-timeline">
-        <div class="edu-timeline-item reveal">
-          <div class="edu-timeline-marker">
-            <i class="fa-solid fa-graduation-cap"></i>
-          </div>
-          <div class="edu-timeline-content">
-            <div class="edu-header">
-              <div>
-                <h3 class="edu-degree">
-                  B.Tech in Electrical & Electronics Engineering
-                </h3>
-                <div class="edu-institution">
-                  SRKR Engineering College, Bhimavaram
+      <div class="projects-bento">
+        <!-- Featured -->
+        <article class="project-card project-featured reveal" id="proj-learnhub">
+          <div class="project-featured-label"><span class="featured-dot"></span>FEATURED PROJECT</div>
+          <div class="project-card-inner">
+            <div class="project-preview project-preview-learnhub" aria-label="LearnHub LMS preview">
+              <div class="preview-mockup">
+                <div class="mockup-bar"><span class="mb mb-r"></span><span class="mb mb-y"></span><span class="mb mb-g"></span><span class="mockup-url">learnhub-elwb.onrender.com</span></div>
+                <div class="mockup-content">
+                  <div class="mc-nav"><div class="mc-logo"></div><div class="mc-links"><span></span><span></span><span></span></div></div>
+                  <div class="mc-hero"><div class="mc-title"></div><div class="mc-sub"></div><div class="mc-btn"></div></div>
+                  <div class="mc-courses"><div class="mc-course-card"></div><div class="mc-course-card"></div><div class="mc-course-card"></div></div>
                 </div>
               </div>
-              <span class="edu-duration">2020 — 2024</span>
             </div>
-            <div class="edu-grade">CGPA: 7.95/10</div>
-            <div class="edu-project">
-              <div class="edu-project-title">
-                <i class="fa-solid fa-bolt"></i> Capstone: EV Regenerative
-                Braking Simulation
+            <div class="project-info">
+              <h3 class="project-title">LearnHub</h3>
+              <p class="project-subtitle">Full-Stack Learning Management System</p>
+              <p class="project-desc">A production-grade LMS with secure JWT cookie-based auth, Stripe payment processing, course progress tracking, and multi-role dashboards. Built with a decoupled React frontend and Node.js/Express REST API backend.</p>
+              <div class="project-tech-row"><span class="tech-badge">React 19</span><span class="tech-badge">Node.js</span><span class="tech-badge">Express</span><span class="tech-badge tech-badge-alt">JWT</span><span class="tech-badge tech-badge-alt">Stripe</span><span class="tech-badge">MySQL</span></div>
+              <div class="project-actions">
+                <a href="https://learnhub-elwb.onrender.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i><span>Live Demo</span></a>
+                <a href="https://github.com/Rohith-180503/ONLINE-LEARNING-WEBSITE" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm"><i class="fa-brands fa-github" aria-hidden="true"></i><span>GitHub</span></a>
+                <button class="btn btn-ghost btn-sm btn-details" data-project="learnhub" aria-label="View LearnHub deep dive"><span>Deep Dive</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
               </div>
-              <p>
-                This project introduces a simulation framework aimed at evaluating
-                the efficacy of regenerative braking systems in electric vehicles
-                (EVs) utilizing brushless DC (BLDC) motors. Through the integration
-                of various components such as the battery pack, motor, control
-                system, and power electronics, the framework realistically models
-                their interactions, including the dynamic behaviour of batteries and
-                their thermal characteristics across different driving conditions.
-                Central to the simulation is the regenerative braking system,
-                which efficiently captures energy during braking utilizing PID
-                controllers to optimize performance while ensuring vehicle stability.
-                Moreover, closed-loop control strategies are incorporated to adapt
-                motor speed and torque in response to real-time inputs from the
-                braking pedal, enhancing the overall responsiveness and efficiency
-                of the system. With a focus on monitoring and visualization tools,
-                this project facilitates the analysis of simulation results in
-                real-time, offering valuable insights into optimal vehicle design,
-                control strategies, and energy management techniques for sustainable
-                electric mobility. By evaluating the performance of EVs under diverse
-                driving scenarios and assessing the impact of regenerative braking
-                on energy efficiency, this research contributes to the advancement
-                of electric vehicle technology, paving the way for more
-                environmentally friendly and efficient transportation solutions in
-                the future.
-              </p>
+            </div>
+          </div>
+        </article>
+        <!-- TaskFlow -->
+        <article class="project-card project-secondary reveal" style="transition-delay:0.1s" id="proj-taskflow">
+          <div class="project-card-top">
+            <div class="project-icon-wrap"><i class="fa-solid fa-list-check"></i></div>
+            <div class="project-links-wrap">
+              <a href="https://taskflow-nm5v.onrender.com" target="_blank" rel="noopener noreferrer" class="proj-link" aria-label="TaskFlow live demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              <a href="https://github.com/Rohith-180503/TODO-LIST-APP" target="_blank" rel="noopener noreferrer" class="proj-link" aria-label="TaskFlow GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title-sm">TaskFlow Manager</h3>
+          <p class="project-desc-sm">Productivity-focused task manager with filtering, undo system, DOMPurify sanitization, full ARIA accessibility, and LocalStorage persistence.</p>
+          <div class="project-tech-row-sm"><span class="tech-badge-sm">JavaScript</span><span class="tech-badge-sm">LocalStorage</span><span class="tech-badge-sm">DOMPurify</span><span class="tech-badge-sm">CSS3</span></div>
+          <button class="proj-deepdive" data-project="taskflow">Case Study <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+        </article>
+        <!-- Dragon Dash -->
+        <article class="project-card project-secondary reveal" style="transition-delay:0.2s" id="proj-dragon">
+          <div class="project-card-top">
+            <div class="project-icon-wrap project-icon-pink"><i class="fa-solid fa-gamepad"></i></div>
+            <div class="project-links-wrap">
+              <a href="https://github.com/Rohith-180503/DRAGON-DASH-GAME" target="_blank" rel="noopener noreferrer" class="proj-link" aria-label="Dragon Dash GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title-sm">Dragon Dash Arcade</h3>
+          <p class="project-desc-sm">Browser arcade game built with vanilla JavaScript and HTML Canvas. Custom physics, AABB collision detection, requestAnimationFrame game loop, and procedural obstacle generation.</p>
+          <div class="project-tech-row-sm"><span class="tech-badge-sm">JavaScript</span><span class="tech-badge-sm">HTML Canvas</span><span class="tech-badge-sm">Physics</span><span class="tech-badge-sm">Animation API</span></div>
+          <button class="proj-deepdive" data-project="dragondash">Case Study <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+        </article>
+        <!-- Netflix Clone -->
+        <article class="project-card project-secondary reveal" style="transition-delay:0.3s" id="proj-netflix">
+          <div class="project-card-top">
+            <div class="project-icon-wrap project-icon-cyan"><i class="fa-solid fa-film"></i></div>
+            <div class="project-links-wrap">
+              <a href="https://github.com/Rohith-180503/NETFLIX-CLONE" target="_blank" rel="noopener noreferrer" class="proj-link" aria-label="Netflix Clone GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title-sm">Netflix India Clone</h3>
+          <p class="project-desc-sm">Pixel-perfect responsive landing page clone showcasing mastery of CSS Grid, Flexbox, fluid typography, autoplay video integration, and interactive FAQ accordion.</p>
+          <div class="project-tech-row-sm"><span class="tech-badge-sm">HTML5</span><span class="tech-badge-sm">CSS3</span><span class="tech-badge-sm">Flexbox</span><span class="tech-badge-sm">CSS Grid</span></div>
+          <button class="proj-deepdive" data-project="netflix">Case Study <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+        </article>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="experience-section" aria-label="Experience and Education">
+      <div class="section-label-wrap reveal"><span class="section-label">04 &mdash; EXPERIENCE</span></div>
+      <h2 class="section-heading reveal">My<br><span class="accent-lime">Journey.</span></h2>
+      <div class="experience-layout">
+        <div class="exp-column">
+          <div class="exp-column-label reveal"><i class="fa-solid fa-briefcase"></i> Work Experience</div>
+          <div class="timeline-item reveal" style="transition-delay:0.1s">
+            <div class="timeline-marker"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+            <div class="timeline-body">
+              <div class="timeline-meta"><span class="timeline-date">Jul 2024 &mdash; Mar 2025</span></div>
+              <h3 class="timeline-role">Graduate Engineer Trainee</h3>
+              <div class="timeline-org">Voltech Engineers Pvt. Ltd. <span class="timeline-location">&middot; Chennai</span></div>
+              <ul class="timeline-points">
+                <li>Supported high-voltage substation commissioning through technical checks, documentation, and team coordination.</li>
+                <li>Designed single-line diagrams and control panel layout documents to precise engineering standards.</li>
+                <li>Assisted with testing, issue identification, and troubleshooting during site-level activities.</li>
+                <li>Maintained detailed technical records ensuring smooth project execution and compliance.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="timeline-item reveal" style="transition-delay:0.2s">
+            <div class="timeline-marker"><div class="timeline-dot timeline-dot-dim"></div></div>
+            <div class="timeline-body">
+              <div class="timeline-meta"><span class="timeline-date">Mar 2025 &mdash; Present</span></div>
+              <h3 class="timeline-role">Independent Software Developer</h3>
+              <div class="timeline-org">Self-directed <span class="timeline-location">&middot; Building full-stack projects</span></div>
+              <ul class="timeline-points">
+                <li>Designed and built LearnHub, a production-grade LMS with Stripe payments and JWT authentication.</li>
+                <li>Developed TaskFlow, a feature-rich task manager with accessibility and state persistence focus.</li>
+                <li>Exploring Java, Spring Boot, Docker, and cloud deployment patterns.</li>
+              </ul>
             </div>
           </div>
         </div>
-
-        <div class="edu-timeline-item reveal" style="transition-delay: 0.15s">
-          <div class="edu-timeline-marker secondary">
-            <i class="fa-solid fa-school"></i>
-          </div>
-          <div class="edu-timeline-content">
-            <div class="edu-header">
-              <div>
-                <h3 class="edu-degree">Intermediate (MPC)</h3>
-                <div class="edu-institution">
-                  Narayana Junior College, Vijayawada
-                </div>
-              </div>
-              <span class="edu-duration">2018 — 2020</span>
+        <div class="exp-column">
+          <div class="exp-column-label reveal" style="transition-delay:0.05s"><i class="fa-solid fa-graduation-cap"></i> Education</div>
+          <div class="edu-card reveal" style="transition-delay:0.15s">
+            <div class="edu-card-header">
+              <div><h3 class="edu-degree">B.Tech &mdash; Electrical &amp; Electronics Engineering</h3><div class="edu-institution">SRKR Engineering College, Bhimavaram</div></div>
+              <span class="edu-year">2020 &mdash; 2024</span>
             </div>
-            <div class="edu-grade">Score: 910/1000 (91%)</div>
-          </div>
-        </div>
-
-        <div class="edu-timeline-item reveal" style="transition-delay: 0.3s">
-          <div class="edu-timeline-marker secondary">
-            <i class="fa-solid fa-book"></i>
-          </div>
-          <div class="edu-timeline-content">
-            <div class="edu-header">
-              <div>
-                <h3 class="edu-degree">Secondary School (Class X)</h3>
-                <div class="edu-institution">
-                  Flora English Medium School, Vuyyuru
-                </div>
-              </div>
-              <span class="edu-duration">2017 — 2018</span>
+            <div class="edu-grade"><i class="fa-solid fa-star"></i> CGPA: 7.95 / 10</div>
+            <div class="edu-project-wrap">
+              <div class="edu-project-title"><i class="fa-solid fa-bolt"></i> Capstone Project</div>
+              <p class="edu-project-desc">EV Regenerative Braking Simulation &mdash; Modeled battery-motor dynamics using MATLAB/Simulink to analyze energy recovery and PID control strategies for electric vehicles.</p>
             </div>
-            <div class="edu-grade">GPA: 10/10</div>
+          </div>
+          <div class="edu-card edu-card-sm reveal" style="transition-delay:0.25s">
+            <div class="edu-card-header">
+              <div><h3 class="edu-degree">Intermediate (MPC)</h3><div class="edu-institution">Narayana Junior College, Vijayawada</div></div>
+              <span class="edu-year">2018 &mdash; 2020</span>
+            </div>
+            <div class="edu-grade"><i class="fa-solid fa-star"></i> Score: 910/1000 (91%)</div>
+          </div>
+          <div class="edu-card edu-card-sm reveal" style="transition-delay:0.35s">
+            <div class="edu-card-header">
+              <div><h3 class="edu-degree">Secondary School (Class X)</h3><div class="edu-institution">Flora English Medium School, Vuyyuru</div></div>
+              <span class="edu-year">2017 &mdash; 2018</span>
+            </div>
+            <div class="edu-grade"><i class="fa-solid fa-star"></i> GPA: 10 / 10</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact">
-      <h2 class="section-title reveal">Get In Touch</h2>
-      <div class="contact-content reveal">
-        <div class="avatar-container">
-          <div class="ripple"></div>
-          <div class="avatar">NBR</div>
-        </div>
-
-        <div class="contact-cards">
-          <a
-            href="mailto:rohithnidumolu@gmail.com?subject=Inquiry regarding Full-Stack Developer Role&body=Hello Rohith, I found your portfolio and would like to connect regarding..."
-            class="contact-item"
-          >
-            <i class="fa-solid fa-envelope"></i>
-            <div class="contact-text">
-              <h5>Email</h5>
-              <p>rohithnidumolu@gmail.com</p>
-            </div>
-            <span
-              style="
-                margin-left: auto;
-                font-size: 0.75rem;
-                color: var(--accent-pink);
-                font-weight: 600;
-              "
-              >Quick Message <i class="fa-solid fa-paper-plane"></i
-            ></span>
+    <!-- CONTACT -->
+    <section id="contact" class="contact-section" aria-label="Contact">
+      <div class="contact-inner">
+        <div class="section-label-wrap reveal"><span class="section-label">05 &mdash; CONTACT</span></div>
+        <h2 class="contact-heading reveal">LET'S BUILD SOMETHING<br><span class="accent-lime">MEANINGFUL.</span></h2>
+        <p class="contact-subtext reveal" style="transition-delay:0.1s">I'm currently open to full-stack developer roles, freelance projects, and collaboration opportunities. Let's connect.</p>
+        <div class="contact-grid">
+          <a href="mailto:rohithnidumolu@gmail.com?subject=Inquiry regarding Full-Stack Developer Role" class="contact-card reveal" style="transition-delay:0.1s">
+            <div class="contact-card-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="contact-card-info"><div class="contact-card-label">Email</div><div class="contact-card-value">rohithnidumolu@gmail.com</div></div>
+            <div class="contact-card-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
           </a>
-          <a href="tel:+917386432810" class="contact-item">
-            <i class="fa-solid fa-phone"></i>
-            <div class="contact-text">
-              <h5>Phone</h5>
-              <p>+91 73864 32810</p>
-            </div>
+          <a href="https://linkedin.com/in/rohithnidumolu" target="_blank" rel="noopener noreferrer" class="contact-card reveal" style="transition-delay:0.2s">
+            <div class="contact-card-icon contact-card-icon-cyan"><i class="fa-brands fa-linkedin"></i></div>
+            <div class="contact-card-info"><div class="contact-card-label">LinkedIn</div><div class="contact-card-value">in/rohithnidumolu</div></div>
+            <div class="contact-card-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
           </a>
-          <a
-            href="https://linkedin.com/in/rohithnidumolu"
-            target="_blank"
-            class="contact-item"
-          >
-            <i class="fa-brands fa-linkedin"></i>
-            <div class="contact-text">
-              <h5>LinkedIn</h5>
-              <p>in/rohithnidumolu</p>
-            </div>
+          <a href="https://github.com/Rohith-180503" target="_blank" rel="noopener noreferrer" class="contact-card reveal" style="transition-delay:0.3s">
+            <div class="contact-card-icon contact-card-icon-silver"><i class="fa-brands fa-github"></i></div>
+            <div class="contact-card-info"><div class="contact-card-label">GitHub</div><div class="contact-card-value">Rohith-180503</div></div>
+            <div class="contact-card-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
           </a>
-          <a
-            href="https://github.com/Rohith-180503"
-            target="_blank"
-            class="contact-item"
-          >
-            <i class="fa-brands fa-github"></i>
-            <div class="contact-text">
-              <h5>GitHub</h5>
-              <p>Rohith-180503</p>
-            </div>
-          </a>
-          <div class="contact-item" style="cursor: default">
-            <i class="fa-solid fa-location-dot"></i>
-            <div class="contact-text">
-              <h5>Location</h5>
-              <p>Vuyyuru, Andhra Pradesh</p>
-            </div>
+          <div class="contact-card contact-card-static reveal" style="transition-delay:0.4s">
+            <div class="contact-card-icon contact-card-icon-pink"><i class="fa-solid fa-phone"></i></div>
+            <div class="contact-card-info"><div class="contact-card-label">Phone</div><div class="contact-card-value">+91 73864 32810</div></div>
           </div>
+        </div>
+        <div class="contact-copy-row reveal" style="transition-delay:0.5s">
+          <button class="copy-email-btn" id="copy-email-btn" aria-label="Copy email address to clipboard"><i class="fa-solid fa-copy"></i><span id="copy-email-text">Copy Email</span></button>
+          <span class="contact-location"><i class="fa-solid fa-location-dot"></i> Vuyyuru, Andhra Pradesh, India</span>
         </div>
       </div>
     </section>
 
-    <div class="accent-switcher">
-      <div class="accent-dot dot-indigo active" data-color="#6366f1"></div>
-      <div class="accent-dot dot-pink" data-color="#ec4899"></div>
-      <div class="accent-dot dot-cyan" data-color="#06b6d4"></div>
-      <div class="accent-dot dot-amber" data-color="#f59e0b"></div>
-    </div>
-
-    <div class="modal-overlay" id="project-modal">
-      <div class="modal-content">
-        <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
-        <h3 class="modal-title" id="modal-title">Project Title</h3>
-        <div class="modal-body" id="modal-body">
-          <!-- Data injected via JS -->
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-wordmark">NBR<span class="footer-dot">.</span></span>
+          <p class="footer-copy">&copy; 2026 Nidumolu Bala Rohith. Designed &amp; Built with care.</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://linkedin.com/in/rohithnidumolu" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://github.com/Rohith-180503" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="mailto:rohithnidumolu@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
         </div>
       </div>
-    </div>
-
-    <footer>
-      <div style="margin-bottom: 1rem">
-        <a
-          href="https://linkedin.com/in/rohithnidumolu"
-          target="_blank"
-          style="
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: color 0.3s;
-          "
-          ><i class="fa-brands fa-linkedin"></i
-        ></a>
-        <a
-          href="https://github.com/Rohith-180503"
-          target="_blank"
-          style="
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: color 0.3s;
-          "
-          ><i class="fa-brands fa-github"></i
-        ></a>
-        <a
-          href="https://rohith-180503.github.io/PORTFOLIO"
-          target="_blank"
-          style="
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: color 0.3s;
-          "
-          ><i class="fa-solid fa-globe"></i
-        ></a>
-      </div>
-      <p>&copy; 2026 Nidumolu Bala Rohith. Designed & Built with ❤️</p>
     </footer>
+
+    <!-- PROJECT MODAL -->
+    <div class="modal-overlay" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+      <div class="modal-panel">
+        <button class="modal-close-btn" id="modal-close" aria-label="Close project details"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        <div class="modal-scroll">
+          <div class="modal-badge" id="modal-badge">FEATURED PROJECT</div>
+          <h2 class="modal-project-title" id="modal-project-title">Project Title</h2>
+          <div class="modal-project-meta" id="modal-project-meta"></div>
+          <div class="modal-project-body" id="modal-project-body"></div>
+          <div class="modal-project-links" id="modal-project-links"></div>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
